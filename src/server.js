@@ -24,5 +24,5 @@ app.get('/', (req, res) => {
 
 app.listen(port, hostname, () => {
   // eslint-disable-next-line no-console
-  console.log(`Hello Nguyen Tan Tuan, I am running at ${ hostname }:${ port }/`)
+  console.log(`Hello Nguyen Tan Tuan, I am running at http://${ hostname }:${ port }/`)
 })
