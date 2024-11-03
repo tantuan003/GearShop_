@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký Người dùng</title>
+</head>
+<body>
+    <h1>Đăng ký Người dùng</h1>
+    <form id="registerForm">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="text" id="role" placeholder="Role" required>
+        <button type="submit">Register</button>
+    </form>
+    
+    <script>
+    document.getElementById('registerForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+    
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value,
+            role: document.getElementById('role').value,
+        };
+    
+        try {
+            const response = await fetch('http://localhost:8017/v1/User/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            const result = await response.json();
+            if (response.ok) {
+                alert('Đăng ký thành công: ' + result.message);
+            } else {
+                alert('Lỗi: ' + result.errors.join(', '));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra. Vui lòng thử lại.');
+        }
+    });
+    </script>
+    
+</body>
+</html>

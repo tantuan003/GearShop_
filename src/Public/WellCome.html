@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To GearShop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            text-align: center;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        nav a {
+            margin: 0 15px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        #userInfo {
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            width: 100%;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Application!</h1>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="profile.html">Profile</a>
+            <a href="settings.html">Settings</a>
+            <a href="logout.html">Logout</a>
+        </nav>
+    </header>
+    
+    <div id="userInfo"></div>
+    <button id="logoutButton">Logout</button>
+
+    <footer>
+        <p>&copy; 2024 My Application. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Hiển thị thông tin người dùng
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            document.getElementById('userInfo').innerText = `Hello, ${user.name}!`;
+        }
+
+        // Xử lý đăng xuất
+        document.getElementById('logoutButton').addEventListener('click', function() {
+            localStorage.removeItem('user'); // Xoá thông tin người dùng
+            window.location.href = 'login.html'; // Quay về trang đăng nhập
+
+        });
+    </script>
+</body>
+</html>
