@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GearShop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
+            font-family: 'Patrick Hand', cursive;
         }
-
+        
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -20,7 +22,7 @@
             overflow-x: hidden;
             background-color: #f4f4f4;
         }
-
+        
         header {
             display: flex;
             align-items: center;
@@ -29,8 +31,11 @@
             padding: 15px;
             width: 100%;
             height: 85px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
         }
-
+        
         .logo {            
             margin-left: 50px;
             width: 250px;
@@ -41,6 +46,7 @@
             display: flex;
             align-items: center;
             margin-left: 50px;
+            font-size: 15px;
         }
 
         .header_menu ul {
@@ -69,7 +75,7 @@
             font-size: 0.85em;
             margin-left: 550px;
         }
-        
+
         .sign_in_link:hover,
         .home:hover,
         .category:hover,
@@ -101,22 +107,18 @@
             display: block;
         }
 
-        .content {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
         .slideshow {
             width: 100%;
-            height: 65vh;
+            height: 75vh;
+            position: relative;
             overflow: hidden;
         }
 
         .slideshow img {
             width: 100%;
-            height: 100%;
+            max-height: 100%;
             object-fit: cover;
+            position: absolute;
             opacity: 0;
             transition: opacity 1s ease;
         }
@@ -125,10 +127,71 @@
             opacity: 1;
         }
 
-        .section1, .section2, .section3 {
+        .mid_tile {
             background-color: white;
-            padding: 20px;
+            padding-left: 25px;
+            font-size: 25px;
+        }
+
+        .mid_tile h3 img {
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        .content {
+            display: grid;
+            background-color: white;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            padding: 10px;
+            padding-left: 150px;
+            padding-right: 150px;
+            align-items: center;
+        }
+
+        .product-card {
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 8px;
+            padding: 15px;
             text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 400px;
+            margin: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            border: 2px solid rgb(5, 220, 240);
+            transform: scale(1.03);
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: 200px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin: 10px 0;
+            padding-top: 20px;
+            transition: transform 0.3s ease, filter 2s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .product-price {
+            font-size: 16px;
+            color: #e63946;
+            font-weight: bold;
         }
 
         footer {
@@ -142,7 +205,7 @@
     </style>
 </head>
 
-<body> 
+<body>
     <header>
         <img src="/Upload/Logo.png" class="logo">
         <nav class="header_menu">
@@ -158,43 +221,65 @@
                     </div>
                 </li>
                 <li><a href="#">GIỚI THIỆU</a></li>
+                <li><a href="#">XU HƯỚNG</a></li>
             </ul>
             <a href="Login.html" class="sign_in_link">
-                <img src="/Upload/signin_icon.png" width="20" height="20">
-                Đăng Nhập
+                <img src="/Upload/signin_icon.png" width="20" height="20"> Đăng Nhập
             </a> 
         </nav>
     </header>
 
-    <!-- Slideshow nằm giữa header và các section -->
     <div class="slideshow">
-        <img src="/Upload/banner1.png" class="active" alt="Slideshow Image 1">
-        <img src="/Upload/banner2.png" alt="Slideshow Image 2">
-        <img src="/Upload/banner3.png" alt="Slideshow Image 3">
+        <img src="/Upload/keyboard_banner1.png" class="active" alt="Slideshow Image 1">
+        <img src="/Upload/keyboard_banner3.png" alt="Slideshow Image 2">
+        <img src="/Upload/keyboard_banner4.png" alt="Slideshow Image 3">
+        <img src="/Upload/keyboard_banner6.png" alt="Slideshow Image 4">
+        <img src="/Upload/keyboard_banner7.png" alt="Slideshow Image 5">
+    </div>
+
+    <div class="mid_tile">
+        <h3>Top Sản Phẩm Bán Chạy <img src="/Upload/fire_icon.png" alt="fire_icon"></h3>
     </div>
 
     <div class="content">
-        <div class="section section1">Section 1</div>
-        <div class="section section2">Section 2</div>
-        <div class="section section3">Section 3</div>
+        <div class="product-card">
+            <img src="/Upload/keyboard1_img.png" alt="Product 1" class="product-image">
+            <h4 class="product-title">Sản Phẩm 1</h4>
+            <p class="product-description">Mô tả sản phẩm 1.</p>
+            <p class="product-price">$100</p>
+        </div>
+
+        <div class="product-card">
+            <img src="/Upload/product2.png" alt="Product 2" class="product-image">
+            <h4 class="product-title">Sản Phẩm 2</h4>
+            <p class="product-description">Mô tả sản phẩm 2.</p>
+            <p class="product-price">$150</p>
+        </div>
+
+        <div class="product-card">
+            <img src="/Upload/product3.png" alt="Product 3" class="product-image">
+            <h4 class="product-title">Sản Phẩm 3</h4>
+            <p class="product-description">Mô tả sản phẩm 3.</p>
+            <p class="product-price">$200</p>
+        </div>
+
+        <div class="product-card">
+            <img src="/Upload/product4.png" alt="Product 4" class="product-image">
+            <h4 class="product-title">Sản Phẩm 4</h4>
+            <p class="product-description">Mô tả sản phẩm 4.</p>
+            <p class="product-price">$250</p>
+        </div>
+
+        <div class="product-card">
+            <img src="/Upload/product5.png" alt="Product 5" class="product-image">
+            <h4 class="product-title">Sản Phẩm 5</h4>
+            <p class="product-description">Mô tả sản phẩm 5.</p>
+            <p class="product-price">$300</p>
+        </div>
     </div>
-    
+
     <footer>
         <p>&copy; 2024 My Application. All rights reserved.</p>
     </footer>
-
-    <script>
-        // JavaScript để tự động chuyển đổi ảnh trong slideshow
-        let slideIndex = 0;
-        const slides = document.querySelectorAll(".slideshow img");
-
-        function showSlides() {
-            slides.forEach(slide => slide.classList.remove("active"));
-            slideIndex = (slideIndex + 1) % slides.length;
-            slides[slideIndex].classList.add("active");
-        }
-
-        setInterval(showSlides, 3000);
-    </script>
 </body>
 </html>
