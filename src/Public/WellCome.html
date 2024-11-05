@@ -6,7 +6,7 @@
     <title>GearShop</title>
     <style>
         * {
-            box-sizing: border-box; /* Tất cả phần tử sẽ sử dụng border-box */
+            box-sizing: border-box;
         }
 
         body {
@@ -14,56 +14,51 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column; /* Chiều dọc */
+            flex-direction: column;
             min-height: 100vh;
-            max-width: 100vw; /* Giới hạn chiều rộng tối đa của body */
-            overflow-x: hidden; /* Ẩn thanh cuộn ngang nếu có */
+            max-width: 100vw;
+            overflow-x: hidden;
             background-color: #f4f4f4;
         }
 
         header {
             display: flex;
-            background-color: #021516fd;
+            align-items: center;
+            background-color: black;
             color: white;
             padding: 15px;
             width: 100%;
-            height: 95px;
-            border-bottom: 2px solid white; /* Thêm viền màu trắng ở cạnh dưới */
+            height: 85px;
         }
 
         .logo {            
             margin-left: 50px;
-            margin-top: -75px;
-            width: 220px;
-            height: 220px;
+            width: 250px;
+            height: auto;
         }
 
         .header_menu {
             display: flex;
-            margin-right: auto;
+            align-items: center;
+            margin-left: 50px;
         }
 
         .header_menu ul {
             list-style-type: none;
-            display: flex; 
+            display: flex;
             padding: 0;
             margin: 0;
         }
 
         .header_menu li {
-            margin: 0 20px; 
-        }
-
-        nav {
-            margin-left: 200px;           
-            display: flex;
-            align-items: center;
+            margin: 0 20px;
+            font-size: 1em;
         }
 
         nav a {
-            margin: 0 15px;
             color: #fafbfa;
             text-decoration: none;
+            font-size: 1em;
         }
 
         .sign_in_link {
@@ -72,24 +67,25 @@
             text-decoration: none;
             color: rgb(247, 246, 246); 
             font-size: 0.85em;
+            margin-left: 550px;
         }
-
-        .sign_in_link:hover {
+        
+        .sign_in_link:hover,
+        .home:hover,
+        .category:hover,
+        .dropdown-content a:hover {
             color: rgb(5, 220, 240);
         }
 
-        .home:hover {
-            color: rgb(5, 220, 240);
-        }
-
-        .category:hover {
-            color: rgb(5, 220, 240);
+        .dropdown {
+            padding-top: 0px;
+            position: relative;
         }
 
         .dropdown-content {
             display: none; 
             position: absolute; 
-            background-color:  #021516fd;
+            background-color: #021516fd;
             min-width: 160px; 
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
             z-index: 1; 
@@ -102,17 +98,37 @@
         .dropdown-content a {
             color: rgb(255, 252, 252); 
             padding: 12px 16px; 
-            text-decoration: none; 
-            display: block; 
+            display: block;
         }
 
-        .dropdown-content a:hover {
-            color: rgb(5, 220, 240);
+        .content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
 
-        #userInfo {
-            font-size: 1.2em;
-            margin: 20px 0;
+        .slideshow {
+            width: 100%;
+            height: 65vh;
+            overflow: hidden;
+        }
+
+        .slideshow img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .slideshow img.active {
+            opacity: 1;
+        }
+
+        .section1, .section2, .section3 {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
         }
 
         footer {
@@ -123,36 +139,6 @@
             text-align: center;
             width: 100%;
         }
-
-        button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Các phần bên trong body */
-        .content {
-            display: flex; /* Sử dụng Flexbox cho phần nội dung */
-            flex: 1; /* Chiếm hết không gian còn lại */
-            width: 100%; /* Đảm bảo chiều rộng 100% */
-        }
-
-        .section {
-            flex: 1; /* Các phần sẽ chiếm đều không gian có sẵn */
-            box-sizing: border-box; /* Bao gồm padding và border trong kích thước */
-            padding: 20px; /* Khoảng cách bên trong */
-        }
-
-        .section1 { background-color: #021516fd; }
-        .section2 { background-color: white;
-                    padding: 0 550px; }
-        .section3 { background-color: #021516fd; }
     </style>
 </head>
 
@@ -171,20 +157,26 @@
                         <a href="#">Pad Chuột</a>
                     </div>
                 </li>
+                <li><a href="#">GIỚI THIỆU</a></li>
             </ul>
-        </nav>
-        <nav>                   
             <a href="Login.html" class="sign_in_link">
-                <img src="/Upload/signin_icon.png" class="sign_in_img" width="20" height="20">
+                <img src="/Upload/signin_icon.png" width="20" height="20">
                 Đăng Nhập
-            </a>          
+            </a> 
         </nav>
     </header>
-    
+
+    <!-- Slideshow nằm giữa header và các section -->
+    <div class="slideshow">
+        <img src="/Upload/banner1.png" class="active" alt="Slideshow Image 1">
+        <img src="/Upload/banner2.png" alt="Slideshow Image 2">
+        <img src="/Upload/banner3.png" alt="Slideshow Image 3">
+    </div>
+
     <div class="content">
-        <div class="section section1"></div>
-        <div class="section section2"></div>
-        <div class="section section3"></div>
+        <div class="section section1">Section 1</div>
+        <div class="section section2">Section 2</div>
+        <div class="section section3">Section 3</div>
     </div>
     
     <footer>
@@ -192,17 +184,17 @@
     </footer>
 
     <script>
-        // Hiển thị thông tin người dùng
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user) {
-            document.getElementById('userInfo').innerText = `Hello, ${user.name}!`;
+        // JavaScript để tự động chuyển đổi ảnh trong slideshow
+        let slideIndex = 0;
+        const slides = document.querySelectorAll(".slideshow img");
+
+        function showSlides() {
+            slides.forEach(slide => slide.classList.remove("active"));
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].classList.add("active");
         }
 
-        // Xử lý đăng xuất
-        document.getElementById('logoutButton').addEventListener('click', function() {
-            localStorage.removeItem('user'); // Xoá thông tin người dùng
-            window.location.href = 'login.html'; // Quay về trang đăng nhập
-        });
+        setInterval(showSlides, 3000);
     </script>
 </body>
 </html>
