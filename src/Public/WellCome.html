@@ -66,6 +66,9 @@
             text-decoration: none;
             font-size: 1em;
         }
+        nav a:hover{
+            color:rgb(5, 220, 240); ;
+        }
 
         .sign_in_link {
             display: flex;
@@ -109,9 +112,10 @@
 
         .slideshow {
             width: 100%;
-            height: 75vh;
+            height: 84vh;
             position: relative;
             overflow: hidden;
+            background-color: white;
         }
 
         .slideshow img {
@@ -150,7 +154,7 @@
         }
 
         .product-card {
-            background-color: white;
+            background-color: rgba(230, 230, 231, 0);
             border: 1px solid black;
             border-radius: 8px;
             padding: 15px;
@@ -202,6 +206,26 @@
             text-align: center;
             width: 100%;
         }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 1;
+            border-radius: 50%;
+        }
+        .nav-button.left {
+            left: 20px;
+        }
+
+        .nav-button.right {
+            right: 20px;
+        }
     </style>
 </head>
 
@@ -230,11 +254,13 @@
     </header>
 
     <div class="slideshow">
-        <img src="/Upload/keyboard_banner1.png" class="active" alt="Slideshow Image 1">
-        <img src="/Upload/keyboard_banner3.png" alt="Slideshow Image 2">
-        <img src="/Upload/keyboard_banner4.png" alt="Slideshow Image 3">
-        <img src="/Upload/keyboard_banner6.png" alt="Slideshow Image 4">
-        <img src="/Upload/keyboard_banner7.png" alt="Slideshow Image 5">
+        <img src="/Upload/main_banner.webp" class="active" alt="Slideshow Image 1">
+        <img src="/Upload/keyboard_banner5.png" alt="Slideshow Image 2">
+        <img src="/Upload/headphone_1.webp" alt="Slideshow Image 3">
+        <img src="/Upload/img_banner.webp" alt="Slideshow Image 4">
+        <img src="/Upload/keyboard2_img.webp" alt="Slideshow Image 5">
+        <button class="nav-button left" onclick="prevSlide()">&#10094;</button>
+        <button class="nav-button right" onclick="nextSlide()">&#10095;</button>
     </div>
 
     <div class="mid_tile">
@@ -282,4 +308,36 @@
         <p>&copy; 2024 My Application. All rights reserved.</p>
     </footer>
 </body>
+<script>
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.slideshow img');
+    let slideInterval = setInterval(nextSlide, 4000);
+    function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+                
+            });
+        }
+        function resetInterval() {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, 4000);
+    }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+            resetInterval();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+            resetInterval();
+        }
+   
+
+</script>
 </html>
