@@ -10,7 +10,6 @@
     <form id="loginForm">
         <label for="loginEmail">Email:</label>
         <input type="email" id="loginEmail" name="email" required><br><br>
-
         <label for="loginPassword">Password:</label>
         <input type="password" id="loginPassword" name="password" required><br><br>
 
@@ -26,20 +25,24 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
-            // Gửi yêu cầu POST đến API đăng nhập
-            fetch('/v1/UserRoutes', {
+            fetch('http://localhost:8127/v1/User/login', { // Đảm bảo API đang chạy
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email, password }),
+                credentials: 'include' // Gửi cookie đi cùng yêu cầu
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                alert(data.message); // Thông báo khi đăng nhập thành công
+                if (data.message === 'Đăng nhập thành công') {
+                    console.log('Login successful:', data);                   
+                    window.location.href = '/logged_in.html'; // Điều hướng sau khi đăng nhập thành công
+                } else {
+                    alert('Login failed: ' + data.message);
+                }
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error('Error:', error);
                 alert('Failed to login.');
             });

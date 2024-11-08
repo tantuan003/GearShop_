@@ -11,7 +11,6 @@
         <input type="text" id="name" placeholder="Name" required>
         <input type="email" id="email" placeholder="Email" required>
         <input type="password" id="password" placeholder="Password" required>
-        <input type="text" id="role" placeholder="Role" required>
         <button type="submit">Register</button>
     </form>
     
@@ -23,11 +22,10 @@
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             password: document.getElementById('password').value,
-            role: document.getElementById('role').value,
         };
     
         try {
-            const response = await fetch('http://localhost:8017/v1/User/register', {
+            const response = await fetch('http://localhost:8127/v1/User/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
