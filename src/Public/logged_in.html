@@ -227,6 +227,12 @@
         .nav-button.right {
             right: 20px;
         }
+        #logoutButton{
+            margin-left: 550px;
+        }
+        #logoutButton:hover{
+            color: red;
+        }
     </style>
 </head>
 
@@ -239,10 +245,7 @@
                 <li class="dropdown">
                     <a href="#" class="category">DANH MỤC</a>
                     <div class="dropdown-content">
-                        <a href="#">Bàn Phím</a>
-                        <a href="#">Chuột Máy Tính</a>
-                        <a href="#">Tai Nghe</a>
-                        <a href="#">Pad Chuột</a>
+                        
                     </div>
                 </li>
                 <li><a href="#">GIỚI THIỆU</a></li>
@@ -367,6 +370,32 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => console.error('Error:', error));
         });
     
+</script>
+<script>
+    // Hàm để lấy dữ liệu categories và chèn vào HTML
+    async function loadCategories() {
+        try {
+            // Lấy dữ liệu categories từ API
+            const response = await fetch('http://localhost:8127/v1/User/categories');
+            const categories = await response.json();
+
+            // Lấy phần tử dropdown-content
+            const dropdownContent = document.querySelector('.dropdown-content');
+
+            // Duyệt qua các category và tạo các thẻ <a> để thêm vào dropdown-content
+            categories.forEach(category => {
+                const aTag = document.createElement('a');
+                aTag.href = '#'; // Bạn có thể thay đổi href theo yêu cầu
+                aTag.textContent = category.name; // Hiển thị tên category
+                dropdownContent.appendChild(aTag); // Thêm <a> vào dropdown-content
+            });
+        } catch (error) {
+            console.error('Error loading categories:', error);
+        }
+    }
+
+    // Gọi hàm khi trang được tải
+    window.onload = loadCategories;
 </script>
 
 </html>

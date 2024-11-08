@@ -36,7 +36,9 @@ const START_SERVER = () => {
     res.clearCookie('token'); 
     res.status(200).json({ message: 'Đăng xuất thành công' });
     
+    
   });
+
   app.use('/v1', APIs_V1);
   app.listen(port, hostname, () => {
     console.log(`Hello Nguyen Tan Tuan, I am running at http://${hostname}:${port}/`);
