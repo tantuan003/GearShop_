@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { UserModel } from '~/models/UserModel'; // Import mô hình người dùng
 import Joi from 'joi'; 
 import { StatusCodes } from 'http-status-codes'; // Đảm bảo đã import StatusCodes
-
+import bcrypt from 'bcrypt'
 
 export const CreateUser = async (req, res) => {
     console.log('Request body:', req.body);
@@ -24,6 +24,8 @@ export const CreateUser = async (req, res) => {
             // Nếu email đã tồn tại, gửi phản hồi lỗi và kết thúc hàm bằng return
             return res.status(StatusCodes.CONFLICT).json({ message: 'Email đã được sử dụng' });
         }
+        const saltRounds = 10; // Số vòng băm, bạn có thể điều chỉnh theo nhu cầu
+        const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
         // Mã hóa mật khẩu trước khi lưu
         // (Đảm bảo mã hóa mật khẩu ở đây nếu cần thiết)
@@ -32,7 +34,7 @@ export const CreateUser = async (req, res) => {
         const user = new UserModel({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password,
+            password: hashedPassword,
         });
 
         // Lưu người dùng vào cơ sở dữ liệu
@@ -66,12 +68,13 @@ export const LoginUser = async (req, res) => {
         // Tìm người dùng trong cơ sở dữ liệu
         const user = await UserModel.findOne({ email: req.body.email });
         if (!user) {
-            return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Email không tồn tại' });
+            return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Email hoặc password không chính xác' });
         }
 
         // So sánh mật khẩu đã mã hóa
-        if (req.body.password !== user.password) {
-            return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Mật khẩu không chính xác' });
+        const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ error: 'Email hoặc password không chính xác' });
         }
 
 
@@ -87,8 +90,7 @@ export const LoginUser = async (req, res) => {
 
         // Trả về phản hồi thành công
         res.status(StatusCodes.OK).json({ message: 'Đăng nhập thành công' });
-    } catch (error) {
-        console.error('Error during login:', error); // Log lỗi chi tiết
+    } catch (error) {       
         res.status(StatusCodes.BAD_REQUEST).json({
             message: 'Dữ liệu không hợp lệ'
         });
