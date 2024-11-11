@@ -228,11 +228,48 @@
             right: 20px;
         }
         #logoutButton{
-            margin-left: 550px;
+            color: white;
         }
         #logoutButton:hover{
             color: red;
         }
+        .profile-circle {
+    width: 35px;
+    height: 35px;
+    
+    border-radius: 100%;
+    border: 3px solid #ccc;
+}
+
+.profile-dropdown {
+    margin-left: 500px;
+    margin-top: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.dropdown-profile-content {
+    display: flex;
+    position: absolute;
+    height: auto;
+    background-color: #021516fd;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    width: 125px;
+    z-index: 1;
+}
+
+.dropdown-profile-content a {
+    display: flex;
+    color: black;
+    padding: 10px;
+}
+.profile-name {
+    text-align: center;
+    margin-top: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
     </style>
 </head>
 
@@ -244,14 +281,19 @@
                 <li><a href="logged_in.html" class="home">TRANG CHỦ</a></li>
                 <li class="dropdown">
                     <a href="#" class="category">DANH MỤC</a>
-                    <div class="dropdown-content">
-                        
+                    <div class="dropdown-content">                       
                     </div>
                 </li>
                 <li><a href="#">GIỚI THIỆU</a></li>
                 <li><a >XU HƯỚNG</a></li>
             </ul>
-            <li><a href="#" id="logoutButton">Đăng Xuất</a></li>
+            <div class="profile-dropdown">
+                <img src="Upload/account_icon_1.png" class="profile-circle" id="profileButton">
+                <p id="userName" class="profile-name"></p> 
+                <div class="dropdown-profile-content" id="dropdownProfile">
+                    <li><a href="#" id="logoutButton">Đăng Xuất</a></li>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -348,15 +390,30 @@
     fetch('http://localhost:8127/v1/User/logged_in', {
     method: 'GET',
     credentials: 'include' // Đảm bảo cookie chứa token được gửi kèm
+   
     
-})
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     // Lấy token từ cookie
     const token = document.cookie.split('; ').find(row => row.startsWith('token='));
-
     // Nếu không có token, điều hướng về trang đăng nhập
     if (!token) {
         window.location.href = '/login.html';
+    }
+    else {
+        // Giải mã token để lấy thông tin người dùng
+        const decodedToken = JSON.parse(atob(token.split('.')[1])); // Giải mã phần payload của token
+
+        // Hiển thị thông tin người dùng trên giao diện
+        const userName = decodedToken.name;
+        
+        
+        // Hiển thị tên người dùng
+        document.getElementById('userName').textContent = userName;
+        
+
+        // Nếu có thể, hiển thị ảnh đại diện và các thông tin khác
     }
 });
    document.getElementById('logoutButton').addEventListener('click', function() {
@@ -396,6 +453,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Gọi hàm khi trang được tải
     window.onload = loadCategories;
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const profileButton = document.getElementById('profileButton');
+    const dropdownProfile = document.getElementById('dropdownProfile');
+
+    // Toggle hiển thị dropdown khi nhấn vào hình tròn profile
+    profileButton.addEventListener('click', () => {
+        dropdownProfile.style.display = dropdownProfile.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Ẩn dropdown khi nhấn ra ngoài
+    window.addEventListener('click', (event) => {
+        if (!profileButton.contains(event.target) && !dropdownProfile.contains(event.target)) {
+            dropdownProfile.style.display = 'none';
+        }
+    });
+});
 </script>
 
 </html>

@@ -79,7 +79,7 @@ export const LoginUser = async (req, res) => {
 
 
         // Tạo token JWT
-        const token = jwt.sign({ userId: user._id },process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ userId: user._id,name: user.name,email:user.email,role:user.role},process.env.JWT_SECRET, { expiresIn: '1d' });
 
         // Lưu token vào cookie
         res.cookie('token', token, {
@@ -89,7 +89,12 @@ export const LoginUser = async (req, res) => {
         });
 
         // Trả về phản hồi thành công
-        res.status(StatusCodes.OK).json({ message: 'Đăng nhập thành công' });
+        res.json({
+            message: 'Đăng nhập thành công',
+            user: { name: user.name, email: user.email, role: user.role },
+            token: token // trả về token nếu cần dùng ở client
+        });
+        
     } catch (error) {       
         res.status(StatusCodes.BAD_REQUEST).json({
             message: 'Dữ liệu không hợp lệ'
