@@ -4,7 +4,8 @@ import { CreateUser_validition } from '~/validations/UserValidation';
 import authMiddleware from '~/middlewares/LoginMiddleware';
 import Category from '~/models/CategoryModel'; // Hoặc đường dẫn đúng tới model Category
 import Product from '~/models/ProductModel'; // Hoặc đường dẫn đúng tới model Category
-
+import { StatusCodes } from 'http-status-codes';
+import path from 'path'; 
 
 
 const router = express.Router();
@@ -28,6 +29,13 @@ router.get('/products', async (req, res) => {
         res.status(200).json(products); 
     } catch (err) {
         res.status(500).json({ message: 'Error fetching categories', error: err });
+    }
+});
+router.get('/admin', authMiddleware, (req, res) => {
+    if (req.user.role === 'admin') {
+        return res.sendFile(path.join(__dirname,'..', '..', 'Public', 'admin.html'));
+    } else {
+        return res.status(StatusCodes.FORBIDDEN).json({ message: 'Bạn không có quyền truy cập vào trang admin' });
     }
 });
 export const UserRoutes = router;

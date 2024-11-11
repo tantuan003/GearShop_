@@ -142,7 +142,7 @@
             margin-left: 2px;
         }
 
-        .content {
+        .content,.content-newsp {
             display: grid;
             background-color: white;
             grid-template-columns: repeat(5, 1fr);
@@ -300,6 +300,12 @@
             <p class="product-price">$300</p>
         </div>
     </div>
+    <div class="mid_tile">
+        <h3>Sản Phẩm Mới <img src="/Upload/fire_icon.png" alt="fire_icon"></h3>
+    </div>
+    <div class="content-newsp">
+       
+    </div>
 
     <footer>
         <p>&copy; 2024 My Application. All rights reserved.</p>
@@ -360,7 +366,29 @@
             showSlide(currentIndex);
             resetInterval();
         }
-   
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch('http://localhost:8127/v1/User/products'); // URL của API
+            const products = await response.json();
 
+            const contentDiv = document.querySelector('.content-newsp');
+
+            products.forEach(product => {
+                const productCard = `
+                    <div class="product-card">
+                        <img src="${product.imageUrl}" alt="${product.name}" class="product-image">
+                        <h4 class="product-title">${product.name}</h4>
+                        <p class="product-description">${product.description}</p>
+                        <p class="product-price">$${product.price}</p>
+                    </div>
+                `;
+                contentDiv.innerHTML += productCard;
+            });
+        } catch (error) {
+            console.error('Lỗi khi lấy sản phẩm:', error);
+        }
+    });
 </script>
 </html>

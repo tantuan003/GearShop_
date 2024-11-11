@@ -109,7 +109,11 @@
             color: rgb(255, 252, 252); 
             padding: 12px 16px; 
             display: block;
+            border-bottom: 1px solid #444;
         }
+        .dropdown-content a:last-child {
+    border-bottom: none; /* Xóa đường kẻ dưới mục cuối */
+}
 
         .slideshow {
             width: 100%;
@@ -143,7 +147,7 @@
             margin-left: 2px;
         }
 
-        .content {
+        .content,.content-newsp {
             display: grid;
             background-color: white;
             grid-template-columns: repeat(5, 1fr);
@@ -229,50 +233,88 @@
         }
         #logoutButton{
             color: white;
+            margin-top: 5px;
+            
         }
         #logoutButton:hover{
             color: red;
         }
-        .profile-circle {
-    width: 35px;
-    height: 35px;
-    
+     /* Chỉnh sửa tổng quan cho phần dropdown */
+.profile-circle {
+    width: 30px;
+    height: 30px;  
     border-radius: 100%;
     border: 3px solid #ccc;
+    cursor: pointer; /* Thêm con trỏ khi di chuột vào */
+    margin-left: 500px;
+    margin-top: 10px;
 }
 
 .profile-dropdown {
-    margin-left: 500px;
-    margin-top: 20px;
+    position: relative;
     display: inline-block;
-    text-align: center;
+    
 }
 
 .dropdown-profile-content {
-    display: flex;
+    display: none;
     position: absolute;
-    height: auto;
+    top: 50px;
+    margin-left: 500px;
+    right: 10; 
     background-color: #021516fd;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    width: 125px;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    width: 150px; 
     z-index: 1;
+    opacity: 0; 
+    transform: translateY(-10px);
+    transition: opacity 0.3s, transform 0.3s; 
 }
 
-.dropdown-profile-content a {
-    display: flex;
-    color: black;
-    padding: 10px;
+/* Đảm bảo dropdown hiển thị */
+.dropdown-profile-content.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0); /* Dừng tại vị trí ban đầu */
 }
+
+/* Cải tiến về các phần tử trong dropdown */
+.dropdown-profile-content a {
+    display: block;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f1f1f1;
+    width: 100%; 
+    text-decoration: none;
+    border-bottom: 1px solid #444;
+    box-sizing: border-box; 
+}
+
 .profile-name {
     text-align: center;
-    margin-top: 5px;
-    color: #333;
+    margin-bottom: 3px;
+    color: #f1f1f1;
     font-weight: bold;
+    font-size: 16px;
 }
+.profile-circle-1{
+    width: 25px;
+    height: 25px;
+}
+.profile-info {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 10px;
+    gap: 1px; /* Khoảng cách giữa ảnh và tên */
+    border-bottom: 1px solid #444;
 
+}
     </style>
 </head>
-
 <body>
     <header>
         <img src="/Upload/Logo.png" class="logo">
@@ -289,8 +331,10 @@
             </ul>
             <div class="profile-dropdown">
                 <img src="Upload/account_icon_1.png" class="profile-circle" id="profileButton">
-                <p id="userName" class="profile-name"></p> 
+                
                 <div class="dropdown-profile-content" id="dropdownProfile">
+                    <li class="profile-info"><img class="profile-circle-1" src="Upload/account_icon_1.png"><span id="userName" class="profile-name"></span></li>
+                    <li id="adminLink" style="display: none;"><a href="admin.html">Quản Lý</a></li>
                     <li><a href="#" id="logoutButton">Đăng Xuất</a></li>
                 </div>
             </div>
@@ -346,6 +390,12 @@
             <p class="product-description">Mô tả sản phẩm 5.</p>
             <p class="product-price">$300</p>
         </div>
+    </div>
+    <div class="mid_tile">
+        <h3>Sản Phẩm Mới <img src="/Upload/fire_icon.png" alt="fire_icon"></h3>
+    </div>
+    <div class="content-newsp">
+       
     </div>
 
     <footer>
@@ -407,8 +457,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Hiển thị thông tin người dùng trên giao diện
         const userName = decodedToken.name;
-        
-        
+        const userRole = decodedToken.role;
+        if (userRole === 'admin') {
+            document.getElementById('adminLink').style.display = 'block';
+        } else {
+            document.getElementById('adminLink').style.display = 'none';
+        }
         // Hiển thị tên người dùng
         document.getElementById('userName').textContent = userName;
         
@@ -455,22 +509,46 @@ document.addEventListener("DOMContentLoaded", function() {
     window.onload = loadCategories;
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    const profileButton = document.getElementById('profileButton');
-    const dropdownProfile = document.getElementById('dropdownProfile');
+  document.addEventListener("DOMContentLoaded", function() {
+    const profileButton = document.getElementById("profileButton");
+    const dropdownProfile = document.getElementById("dropdownProfile");
 
-    // Toggle hiển thị dropdown khi nhấn vào hình tròn profile
-    profileButton.addEventListener('click', () => {
-        dropdownProfile.style.display = dropdownProfile.style.display === 'block' ? 'none' : 'block';
+    // Toggle dropdown khi nhấn vào ảnh profile
+    profileButton.addEventListener("click", function() {
+        dropdownProfile.classList.toggle("show"); // Thêm hoặc xóa class 'show'
     });
 
-    // Ẩn dropdown khi nhấn ra ngoài
-    window.addEventListener('click', (event) => {
+    // Nếu nhấn vào vùng bên ngoài profile thì ẩn dropdown
+    document.addEventListener("click", function(event) {
         if (!profileButton.contains(event.target) && !dropdownProfile.contains(event.target)) {
-            dropdownProfile.style.display = 'none';
+            dropdownProfile.classList.remove("show");
         }
     });
 });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch('http://localhost:8127/v1/User/products'); // URL của API
+            const products = await response.json();
+
+            const contentDiv = document.querySelector('.content-newsp');
+
+            products.forEach(product => {
+                const productCard = `
+                    <div class="product-card">
+                        <img src="${product.imageUrl}" alt="${product.name}" class="product-image">
+                        <h4 class="product-title">${product.name}</h4>
+                        <p class="product-description">${product.description}</p>
+                        <p class="product-price">$${product.price}</p>
+                    </div>
+                `;
+                contentDiv.innerHTML += productCard;
+            });
+        } catch (error) {
+            console.error('Lỗi khi lấy sản phẩm:', error);
+        }
+    });
 </script>
 
 </html>

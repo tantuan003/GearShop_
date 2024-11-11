@@ -32,6 +32,9 @@ const START_SERVER = () => {
   app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Login.html'));
   });
+  app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+  });
   app.get('/logout', (req, res) => {
     res.clearCookie('token'); 
     res.status(200).json({ message: 'Đăng xuất thành công' });

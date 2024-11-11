@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Admin</title>
+    <style>
+        /* Reset các thiết lập mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Thanh menu bên trái */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    background-color: #2c3e50;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    transition: left 0.3s ease;
+    padding-top: 20px;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.sidebar-menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar-menu li {
+    padding: 10px 15px;
+}
+
+.sidebar-menu li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+
+.sidebar-menu li a:hover {
+    background-color: #34495e;
+}
+
+/* Nội dung chính */
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #34495e;
+    color: white;
+    padding: 10px 20px;
+}
+
+.menu-toggle {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.admin-info {
+    font-size: 18px;
+}
+
+/* Phần quản lý (Dashboard) */
+.dashboard {
+    padding: 20px;
+}
+
+/* Khi thanh menu hiển thị */
+.sidebar.open {
+    left: 0;
+}
+
+/* Khi nội dung chính bị dịch sang bên phải */
+.main-content.open {
+    margin-left: 250px;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Thanh menu bên trái -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin Dashboard</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#">Trang Chủ</a></li>
+            <li><a href="#">Quản Lý Sản Phẩm</a></li>
+            <li><a href="#">Quản Lý Đơn Hàng</a></li>
+            <li><a href="#">Quản Lý Người Dùng</a></li>
+            <li><a href="#">Cài Đặt</a></li>
+            <li><a href="#" id="logoutButton">Đăng Xuất</a></li>
+        </ul>
+    </div>
+
+    <!-- Nội dung trang admin -->
+    <div class="main-content">
+        <header>
+            <button class="menu-toggle" id="menuToggle">&#9776; Menu</button>
+            <div class="admin-info">
+                <span id="userName">Chào, Admin</span>
+            </div>
+        </header>
+
+        <section class="dashboard">
+            <h1>Trang Admin</h1>
+            <p>Quản lý các chức năng của hệ thống ở đây.</p>
+        </section>
+    </div>
+</body>
+<script>
+    
+    document.getElementById("menuToggle").addEventListener("click", function() {
+    const sidebar = document.getElementById("sidebar");
+    const mainContent = document.querySelector(".main-content");
+
+    // Thêm/loại bỏ class mở menu
+    sidebar.classList.toggle("open");
+    mainContent.classList.toggle("open");
+});
+
+</script>
+</html>
