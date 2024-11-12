@@ -1,17 +1,19 @@
 import express from 'express';
-import { CreateUser,LoginUser,getUserProfile,logout} from '~/controllers/UserController'
+import { CreateUser,LoginUser,getUserProfile,logout,addProduct} from '~/controllers/UserController'
 import { CreateUser_validition } from '~/validations/UserValidation';
 import authMiddleware from '~/middlewares/LoginMiddleware';
 import Category from '~/models/CategoryModel'; // Hoặc đường dẫn đúng tới model Category
 import Product from '~/models/ProductModel'; // Hoặc đường dẫn đúng tới model Category
 import { StatusCodes } from 'http-status-codes';
-import path from 'path'; 
+import path from 'path';
+import upload from '~/config/multerConfig';
+
 
 
 const router = express.Router();
 
 router.post('/register',CreateUser_validition,CreateUser);
-
+router.post('/add-product',addProduct)
 router.post('/login',LoginUser,authMiddleware,getUserProfile)
 router.post('/logout',logout);
 router.get('/logged_in',authMiddleware)
@@ -38,4 +40,5 @@ router.get('/admin', authMiddleware, (req, res) => {
         return res.status(StatusCodes.FORBIDDEN).json({ message: 'Bạn không có quyền truy cập vào trang admin' });
     }
 });
+
 export const UserRoutes = router;

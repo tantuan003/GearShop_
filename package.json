@@ -27,7 +27,8 @@
     "joi": "^17.10.2",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.0.0",
-    "mongoose": "^8.8.0"
+    "mongoose": "^8.8.0",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.10",
@@ -39,6 +40,5 @@
     "babel-plugin-module-resolver": "^5.0.0",
     "eslint": "^8.47.0",
     "nodemon": "^3.1.7"
-    
   }
 }

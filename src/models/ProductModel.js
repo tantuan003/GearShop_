@@ -6,10 +6,7 @@ const productSchema = new mongoose.Schema({
         trim: true,
         required:true, // bắt buộc phải có tên
     },
-    category:{
-        type: String,
-        required: [true, 'Category is required']
-    },
+    category: { type: String, required: true },
     price:{
         type: Number,
         trim: true,
@@ -22,7 +19,7 @@ const productSchema = new mongoose.Schema({
     },
     image:{
         type:Object,
-        required:true
+        required:false
 
     },
     stock: {

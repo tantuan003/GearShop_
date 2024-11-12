@@ -4,6 +4,10 @@ import { UserModel } from '~/models/UserModel'; // Import mô hình người dù
 import Joi from 'joi'; 
 import { StatusCodes } from 'http-status-codes'; // Đảm bảo đã import StatusCodes
 import bcrypt from 'bcrypt'
+import Product from '~/models/ProductModel';
+import upload from '~/config/multerConfig';
+import Category from '~/models/CategoryModel';
+import mongoose from 'mongoose';
 
 export const CreateUser = async (req, res) => {
     console.log('Request body:', req.body);
@@ -114,6 +118,33 @@ export const logout = (req,res) =>{
 
   // Trả về thông báo đăng xuất thành công
   return res.status(200).json({ message: 'Đăng xuất thành công!' });
+};
+// API thêm sản phẩm
+export const addProduct = async (req, res) => {
+    try {
+        // Sử dụng multer để xử lý ảnh
+        upload.single('image')(req, res, async (err) => {
+            if (err) {
+                return res.status(400).json({ message: 'Lỗi khi tải ảnh lên: ' + err.message });
+            }
+            // Lấy thông tin từ body và ảnh từ multer
+            const { name, description, price, category} = req.body;
+            const imageUrl = req.file ? req.file.path : null;  // Lấy đường dẫn ảnh đã tải lên
+            
+            const newProduct = new Product({
+                name,
+                description,
+                price,
+                imageUrl,
+                category // Gán categoryId vào trường category
+            });
+            await newProduct.save();
 
-
+            
+            res.status(201).json(newProduct); 
+        });
+    } catch (error) {
+        console.error('Lỗi server khi thêm sản phẩm:', error);
+        res.status(500).json({ message: 'Lỗi server' });
+    }
 };

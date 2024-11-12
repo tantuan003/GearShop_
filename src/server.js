@@ -38,9 +38,8 @@ const START_SERVER = () => {
   app.get('/logout', (req, res) => {
     res.clearCookie('token'); 
     res.status(200).json({ message: 'Đăng xuất thành công' });
-    
-    
   });
+  
 
   app.use('/v1', APIs_V1);
   app.listen(port, hostname, () => {

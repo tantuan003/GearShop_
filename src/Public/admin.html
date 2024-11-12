@@ -6,92 +6,214 @@
     <title>Trang Admin</title>
     <style>
         /* Reset các thiết lập mặc định */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* Thanh menu bên trái */
-.sidebar {
-    height: 100%;
-    width: 250px;
-    background-color: #2c3e50;
+        /* Thanh menu bên trái */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            background-color: #2c3e50;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            transition: left 0.3s ease;
+            padding-top: 20px;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-menu {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar-menu li {
+            padding: 10px 15px;
+        }
+
+        .sidebar-menu li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+        }
+
+        .sidebar-menu li a:hover {
+            background-color: #34495e;
+        }
+
+        /* Nội dung chính */
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #34495e;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .menu-toggle {
+            background-color: transparent;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .admin-info {
+            font-size: 18px;
+        }
+
+        /* Phần quản lý (Dashboard) */
+        .dashboard, .product-management, .order-management, .user-management, .settings {
+            display: none;
+            padding: 20px;
+        }
+
+        /* Khi thanh menu hiển thị */
+        .sidebar.open {
+            left: 0;
+        }
+
+        /* Khi nội dung chính bị dịch sang bên phải */
+        .main-content.open {
+            margin-left: 250px;
+        }
+        /* Tổng thể layout */
+/* Tổng thể modal (cửa sổ bật lên) */
+#productFormOverlay {
     position: fixed;
     top: 0;
-    left: -250px;
-    transition: left 0.3s ease;
-    padding-top: 20px;
-    z-index: 1000;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+    display: none; /* Ẩn modal mặc định */
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Đảm bảo form nằm trên các phần tử khác */
 }
 
-.sidebar-header {
+/* Form thêm sản phẩm trong modal */
+#productForm {
+    background-color: white;
+    padding: 20px;
+    width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Tiêu đề form */
+#productForm h3 {
     text-align: center;
-    color: white;
-    margin-bottom: 30px;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.sidebar-menu {
-    list-style-type: none;
-    padding: 0;
-}
-
-.sidebar-menu li {
-    padding: 10px 15px;
-}
-
-.sidebar-menu li a {
-    color: white;
-    text-decoration: none;
+/* Label và input */
+#productForm label {
     display: block;
     font-size: 16px;
+    margin-bottom: 5px;
+    color: #555;
 }
 
-.sidebar-menu li a:hover {
-    background-color: #34495e;
+#productForm input, #productForm textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-/* Nội dung chính */
-.main-content {
-    margin-left: 0;
-    transition: margin-left 0.3s ease;
-    padding: 20px;
+#productForm textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #34495e;
-    color: white;
-    padding: 10px 20px;
-}
-
-.menu-toggle {
-    background-color: transparent;
+/* Nút thêm sản phẩm */
+#productForm button {
+    width: 25%;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #28a745;
     color: white;
     border: none;
-    font-size: 24px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.admin-info {
+#productForm button:hover {
+    background-color: #218838;
+}
+
+/* Hiệu ứng hover cho các input */
+#productForm input:focus, #productForm textarea:focus {
+    outline: none;
+    border-color: #28a745;
+}
+
+/* Nút đóng form */
+#productForm .cancel-button {
+    width: 25%;
+    padding: 10px;
     font-size: 18px;
+    background-color: #cd0317;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    
+    float: right;
 }
 
-/* Phần quản lý (Dashboard) */
-.dashboard {
-    padding: 20px;
+#productForm .cancel-button:hover {
+    background-color: #c82333;
 }
 
-/* Khi thanh menu hiển thị */
-.sidebar.open {
-    left: 0;
+/* Thêm kiểu dáng cho thẻ select */
+#category {
+    width: 100%; /* Đặt chiều rộng cho select */
+    padding: 10px; /* Thêm khoảng cách bên trong */
+    font-size: 16px; /* Cỡ chữ */
+    border: 1px solid #ccc; /* Màu đường viền */
+    border-radius: 5px; /* Bo góc cho đường viền */
+    background-color: #f9f9f9; /* Màu nền cho select */
+    color: #333; /* Màu chữ */
+    box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
 }
 
-/* Khi nội dung chính bị dịch sang bên phải */
-.main-content.open {
-    margin-left: 250px;
+#category:focus {
+    border-color: #007bff; /* Đổi màu đường viền khi focus */
+    background-color: #e9f4ff; /* Đổi màu nền khi focus */
+    outline: none; /* Tắt outline mặc định khi focus */
+}
+
+/* Kiểu dáng cho các option trong select */
+#category option {
+    padding: 10px; /* Khoảng cách giữa các option */
+    font-size: 16px; /* Cỡ chữ cho các option */
 }
 
     </style>
@@ -103,11 +225,11 @@ header {
             <h2>Admin Dashboard</h2>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="#">Trang Chủ</a></li>
-            <li><a href="#">Quản Lý Sản Phẩm</a></li>
-            <li><a href="#">Quản Lý Đơn Hàng</a></li>
-            <li><a href="#">Quản Lý Người Dùng</a></li>
-            <li><a href="#">Cài Đặt</a></li>
+            <li><a href="#" onclick="showSection('dashboard')">Trang Chủ</a></li>
+            <li><a href="#" onclick="showSection('product-management')">Quản Lý Sản Phẩm</a></li>
+            <li><a href="#" onclick="showSection('order-management')">Quản Lý Đơn Hàng</a></li>
+            <li><a href="#" onclick="showSection('user-management')">Quản Lý Người Dùng</a></li>
+            <li><a href="#" onclick="showSection('settings')">Cài Đặt</a></li>
             <li><a href="#" id="logoutButton">Đăng Xuất</a></li>
         </ul>
     </div>
@@ -121,22 +243,211 @@ header {
             </div>
         </header>
 
-        <section class="dashboard">
-            <h1>Trang Admin</h1>
-            <p>Quản lý các chức năng của hệ thống ở đây.</p>
+        <!-- Các phần nội dung khác nhau -->
+        <section id="dashboard" class="dashboard">
+            <h1>Trang Chủ</h1>
+            <p>Chào mừng đến với trang quản trị.</p>
+        </section>
+
+        <section id="product-management" class="product-management">
+            <h1>Quản Lý Sản Phẩm</h1>
+            <button id="add">Thêm Sản Phẩm</button>
+
+            <div id="productFormOverlay">
+                <div id="productForm">
+                    
+                    <h3>Thêm Sản Phẩm Mới</h3>
+                    <form id="addProductForm">
+                        <label for="name">Tên Sản Phẩm:</label>
+                        <input type="text" id="name" name="name" required><br>
+
+                        <label for="category">Loại</label>
+                        <select id="category" name="category" required>
+
+                        </select>
+
+                        <label for="description">Mô Tả:</label>
+                        <textarea id="description" name="description" required></textarea><br>
+                        
+                        <label for="price">Giá:</label>
+                        <input type="number" id="price" name="price" required><br>
+                        
+                        <label for="image">Hình Ảnh URL:</label>
+                        <input type="file" id="image" name="image"><br>
+                        
+                        <button type="submit">Thêm</button>
+                        <button class="cancel-button" onclick="closeForm()">Huỷ</button>
+                    </form>
+                </div>
+            </div>
+
+            <table id="productTable" border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Mô Tả</th>
+                        <th>Giá</th>
+                        <th>Hình Ảnh</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dữ liệu sản phẩm sẽ được thêm vào đây từ API -->
+                </tbody>
+            </table>
+        </section>
+
+        <section id="order-management" class="order-management">
+            <h1>Quản Lý Đơn Hàng</h1>
+            <p>Quản lý thông tin đơn hàng ở đây.</p>
+        </section>
+
+        <section id="user-management" class="user-management">
+            <h1>Quản Lý Người Dùng</h1>
+            <p>Quản lý thông tin người dùng ở đây.</p>
+        </section>
+
+        <section id="settings" class="settings">
+            <h1>Cài Đặt</h1>
+            <p>Các thiết lập hệ thống ở đây.</p>
         </section>
     </div>
 </body>
 <script>
-    
+    // Mở rộng sidebar và main content khi bấm nút menu
     document.getElementById("menuToggle").addEventListener("click", function() {
-    const sidebar = document.getElementById("sidebar");
-    const mainContent = document.querySelector(".main-content");
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.querySelector(".main-content");
 
-    // Thêm/loại bỏ class mở menu
-    sidebar.classList.toggle("open");
-    mainContent.classList.toggle("open");
+        sidebar.classList.toggle("open");
+        mainContent.classList.toggle("open");
+    });
+
+    // Hàm để ẩn tất cả các phần và hiển thị phần được chọn
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.main-content section');
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+    // Đặt "Trang Chủ" là mặc định khi load trang
+    showSection('dashboard');
+</script>
+<script>
+    
+
+// Gọi hàm fetchProducts khi trang được load
+window.onload = fetchProducts;
+</script>
+<script>
+    // addsp
+    // Hiển thị form khi nhấn nút Thêm Sản Phẩm
+// Hiển thị form thêm sản phẩm khi nhấn nút "Thêm Sản Phẩm"
+document.getElementById('add').addEventListener('click', function() {
+    document.getElementById('productFormOverlay').style.display = 'flex';
 });
 
+// Đóng form khi nhấn nút đóng
+function closeForm() {
+    document.getElementById('productFormOverlay').style.display = 'none';
+    document.getElementById('addProductForm').reset(); // Reset form
+}
+// Hàm để lấy danh mục từ API và đổ vào thẻ select
+async function loadCategories() {
+    try {
+        // Lấy dữ liệu categories từ API
+        const response = await fetch('http://localhost:8127/v1/User/categories');
+        const categories = await response.json();
+
+        // Lấy phần tử dropdown-content
+        const categorySelect = document.getElementById('category'); // Sửa lại id cho đúng
+
+        // Xóa các option cũ (nếu có)
+        categorySelect.innerHTML = '';
+
+        // Thêm một option mặc định nếu cần
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Chọn danh mục';
+        categorySelect.appendChild(defaultOption);
+
+        // Thêm các danh mục vào thẻ select
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category._id;  // Giả sử bạn muốn dùng _id của category
+            option.textContent = category.name; // Hiển thị tên category
+            categorySelect.appendChild(option); // Thêm option vào select
+        });
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+}
+
+// Gọi hàm khi trang được tải
+window.onload = function() {
+    loadCategories();
+    fetchProducts();
+};
+// Cập nhật bảng sản phẩm sau khi thêm
+async function fetchProducts() {
+    try {
+        const response = await fetch('http://localhost:8127/v1/User/products'); // URL của API
+        const products = await response.json();
+
+        const tableBody = document.getElementById('productTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ''; // Xóa nội dung cũ
+
+        products.forEach(product => {
+            const row = `
+                <tr>
+                    <td><img src="${product.image}" alt="${product.name}" width="50" height="50"></td>
+                    
+                    <td>${product.description}</td>
+                    <td>$${product.price}</td>
+                    <td class="action-buttons">
+                        <button onclick="editProduct('${product._id}')">Chỉnh Sửa</button>
+                        <button onclick="deleteProduct('${product._id}')">Xóa</button>
+                    </td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
+        });
+    } catch (error) {
+        console.error('Lỗi khi lấy sản phẩm:', error);
+    }
+}
+// Khi người dùng submit form
+// Submit the product form
+document.getElementById('addProductForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Ngừng gửi form mặc định
+
+    const formData = new FormData(this);
+    const selectedCategory = document.getElementById('category').value;
+
+    try {
+        const response = await fetch('http://localhost:8127/v1/User/add-product', {
+            method: 'POST',
+            body: formData  // Gửi FormData trực tiếp, không chuyển sang JSON
+        });
+
+        // Gửi thêm category name
+        const result = await response.json();
+        
+        if (response.ok) {
+            alert('Thêm sản phẩm thành công!');
+            fetchProducts(); // Cập nhật lại bảng sản phẩm
+            closeForm(); // Đóng form
+        } else {
+            alert('Lỗi khi thêm sản phẩm: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi khi thêm sản phẩm:', error);
+        alert('Đã có lỗi xảy ra.');
+    }
+});
+
+
 </script>
+
 </html>
