@@ -6,8 +6,7 @@ import { StatusCodes } from 'http-status-codes'; // Đảm bảo đã import Sta
 import bcrypt from 'bcrypt'
 import Product from '~/models/ProductModel';
 import upload from '~/config/multerConfig';
-import Category from '~/models/CategoryModel';
-import mongoose from 'mongoose';
+import path from 'path';
 
 export const CreateUser = async (req, res) => {
     console.log('Request body:', req.body);
@@ -128,14 +127,15 @@ export const addProduct = async (req, res) => {
                 return res.status(400).json({ message: 'Lỗi khi tải ảnh lên: ' + err.message });
             }
             // Lấy thông tin từ body và ảnh từ multer
-            const { name, description, price, category} = req.body;
-            const imageUrl = req.file ? req.file.path : null;  // Lấy đường dẫn ảnh đã tải lên
+            const { name, description, price, stock, category} = req.body;
+            const image = `/Upload/${req.file.filename}`  // Lấy đường dẫn ảnh đã tải lên
             
             const newProduct = new Product({
                 name,
                 description,
                 price,
-                imageUrl,
+                stock,
+                image,
                 category // Gán categoryId vào trường category
             });
             await newProduct.save();
@@ -144,7 +144,52 @@ export const addProduct = async (req, res) => {
             res.status(201).json(newProduct); 
         });
     } catch (error) {
-        console.error('Lỗi server khi thêm sản phẩm:', error);
         res.status(500).json({ message: 'Lỗi server' });
+    }
+};
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;  // Lấy id từ URL
+
+        // Tìm và xóa sản phẩm theo id
+        const product = await Product.findByIdAndDelete(id);
+
+        if (!product) {
+            return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
+        }
+
+        res.status(200).json({ message: 'Sản phẩm đã được xóa' });
+    } catch (err) {
+        res.status(500).json({ message: 'Lỗi khi xóa sản phẩm', error: err });
+    }
+};
+export const editProduct = async (req, res) => {
+    try {
+        // Kiểm tra dữ liệu trong body và file được tải lên
+        console.log("Product ID:", req.params.id);  // Kiểm tra ID
+        console.log("Request Body:", req.body);    // Kiểm tra request body
+        console.log("Uploaded file:", req.file);   // Kiểm tra tệp đã tải lên
+
+        const { name, description, price, stock } = req.body;
+        const updatedData = { name, description, price, stock };
+
+        // Kiểm tra và thêm ảnh nếu có
+        if (req.file) {
+            // Sử dụng path.join để xây dựng đường dẫn tương đối
+            const imagePath = path.join('Upload', req.file.filename); 
+            updatedData.image = imagePath; // Đường dẫn tương đối đến thư mục Upload
+        }
+
+        // Cập nhật sản phẩm trong DB
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
+        }
+
+        res.status(200).json({ message: 'Cập nhật thành công', product: updatedProduct });
+    } catch (error) {
+        console.error('Lỗi khi cập nhật sản phẩm:', error);
+        res.status(500).json({ message: 'Error updating product', error });
     }
 };

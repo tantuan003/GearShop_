@@ -5,7 +5,7 @@ const path = require('path');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         // Đảm bảo lưu vào đúng thư mục Upload
-        const uploadPath = path.join('D:', 'GearShop', 'src', 'Public', 'Upload');  // Thư mục Public/Upload ở thư mục gốc dự án
+        const uploadPath = path.join(__dirname, '..', 'Public', 'Upload'); // hoặc đường dẫn thư mục bạn muốn
         cb(null, uploadPath);  // Chỉ định đúng thư mục
     },
     filename: (req, file, cb) => {
@@ -31,5 +31,4 @@ const upload = multer({
         }
     }
 });
-
 module.exports = upload;

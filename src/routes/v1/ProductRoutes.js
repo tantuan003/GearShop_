@@ -10,4 +10,5 @@ Routes.route('/')
     res.status(200).json({message : 'API get create Products'})
 
 })
+
 export const ProductRoutes = Routes

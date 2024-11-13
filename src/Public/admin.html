@@ -192,29 +192,79 @@
     background-color: #c82333;
 }
 
-/* Thêm kiểu dáng cho thẻ select */
+
 #category {
-    width: 100%; /* Đặt chiều rộng cho select */
-    padding: 10px; /* Thêm khoảng cách bên trong */
-    font-size: 16px; /* Cỡ chữ */
-    border: 1px solid #ccc; /* Màu đường viền */
-    border-radius: 5px; /* Bo góc cho đường viền */
-    background-color: #f9f9f9; /* Màu nền cho select */
-    color: #333; /* Màu chữ */
-    box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+    width: 100%; 
+    padding: 10px; 
+    font-size: 16px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    background-color: #f9f9f9; 
+    color: #333; 
+    box-sizing: border-box; 
 }
 
 #category:focus {
-    border-color: #007bff; /* Đổi màu đường viền khi focus */
-    background-color: #e9f4ff; /* Đổi màu nền khi focus */
-    outline: none; /* Tắt outline mặc định khi focus */
+    border-color: #007bff;
+    background-color: #e9f4ff; 
+    outline: none; 
 }
 
-/* Kiểu dáng cho các option trong select */
 #category option {
-    padding: 10px; /* Khoảng cách giữa các option */
-    font-size: 16px; /* Cỡ chữ cho các option */
+    padding: 10px; 
+    font-size: 16px; 
 }
+#edit-product-form {
+    display: none; /* Ẩn mặc định */
+    width: 100%;
+    max-width: 400px; /* Đặt chiều rộng tối đa */
+    padding: 20px;
+    background-color: #f9f9f9;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    position: fixed;  
+    left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+}
+
+#edit-product-form input,
+#edit-product-form select,
+#edit-product-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#edit-product-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#edit-product-form button:hover {
+    background-color: #45a049;
+}
+
+#edit-product-form h3 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Style cho background mờ khi form hiển thị */
 
     </style>
 </head>
@@ -234,7 +284,6 @@
         </ul>
     </div>
 
-    <!-- Nội dung trang admin -->
     <div class="main-content">
         <header>
             <button class="menu-toggle" id="menuToggle">&#9776; Menu</button>
@@ -243,7 +292,6 @@
             </div>
         </header>
 
-        <!-- Các phần nội dung khác nhau -->
         <section id="dashboard" class="dashboard">
             <h1>Trang Chủ</h1>
             <p>Chào mừng đến với trang quản trị.</p>
@@ -271,23 +319,40 @@
                         
                         <label for="price">Giá:</label>
                         <input type="number" id="price" name="price" required><br>
+
+                        <label for="stock">Số Lượng:</label>
+                        <input type="number" id="stock" name="stock" required><br>
                         
                         <label for="image">Hình Ảnh URL:</label>
                         <input type="file" id="image" name="image"><br>
                         
                         <button type="submit">Thêm</button>
-                        <button class="cancel-button" onclick="closeForm()">Huỷ</button>
+                        <button type="button" class="cancel-button" id="closeform">Huỷ</button>
                     </form>
                 </div>
             </div>
+            
+            
+            <form id="edit-product-form" enctype="multipart/form-data">
+                <h3>Sửa</h3>
+                <input type="text" id="edit-name" placeholder="Tên sản phẩm" required>
+                <textarea id="edit-description" placeholder="Mô tả sản phẩm"></textarea>
+                <input type="number" id="edit-price" placeholder="Giá sản phẩm" required>
+                <input type="number" id="edit-stock" placeholder="Số lượng trong kho" required>
+                <input type="file" id="edit-image">
+                <button type="submit">Cập nhật</button>
+                <button type="button" id="closeedit" >Hủy</button>
+            </form>
+       
 
             <table id="productTable" border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px;">
                 <thead>
                     <tr>
+                        <th>Ảnh</th>
                         <th>Tên Sản Phẩm</th>
                         <th>Mô Tả</th>
                         <th>Giá</th>
-                        <th>Hình Ảnh</th>
+                        <th>Số Lượng</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -341,18 +406,14 @@
 window.onload = fetchProducts;
 </script>
 <script>
-    // addsp
-    // Hiển thị form khi nhấn nút Thêm Sản Phẩm
-// Hiển thị form thêm sản phẩm khi nhấn nút "Thêm Sản Phẩm"
 document.getElementById('add').addEventListener('click', function() {
     document.getElementById('productFormOverlay').style.display = 'flex';
 });
-
-// Đóng form khi nhấn nút đóng
-function closeForm() {
+document.getElementById('closeform').addEventListener('click', function() {
     document.getElementById('productFormOverlay').style.display = 'none';
-    document.getElementById('addProductForm').reset(); // Reset form
-}
+});
+// Đóng form khi nhấn nút đóng
+
 // Hàm để lấy danh mục từ API và đổ vào thẻ select
 async function loadCategories() {
     try {
@@ -401,12 +462,14 @@ async function fetchProducts() {
         products.forEach(product => {
             const row = `
                 <tr>
-                    <td><img src="${product.image}" alt="${product.name}" width="50" height="50"></td>
-                    
+                    <td><img src="${product.image}" width="50" height="50"></td>
+                    <td>${product.name}</td>
                     <td>${product.description}</td>
                     <td>$${product.price}</td>
+                    <td>$${product.stock}</td>
                     <td class="action-buttons">
-                        <button onclick="editProduct('${product._id}')">Chỉnh Sửa</button>
+                        
+                        <button onclick="openEditForm('${product._id}')">Chỉnh Sửa</button>
                         <button onclick="deleteProduct('${product._id}')">Xóa</button>
                     </td>
                 </tr>
@@ -437,7 +500,6 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
         if (response.ok) {
             alert('Thêm sản phẩm thành công!');
             fetchProducts(); // Cập nhật lại bảng sản phẩm
-            closeForm(); // Đóng form
         } else {
             alert('Lỗi khi thêm sản phẩm: ' + result.message);
         }
@@ -446,7 +508,124 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
         alert('Đã có lỗi xảy ra.');
     }
 });
+</script>
+<script>
+    //xoá sản phẩm
+    
+    function deleteProduct(productId) {
+    if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+        fetch(`http://localhost:8127/v1/User/delete-product/${productId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Không thể xóa sản phẩm'); 
+            }
+            return response.json(); 
+        })
+        .then(data => {
+            if (data.message) {
+                alert(data.message); 
+                const productElement = document.getElementById(`product-${productId}`);
+                if (productElement) {
+                    productElement.remove(); 
+                } else {
+                    console.warn('Không tìm thấy sản phẩm trong DOM');
+                }
+                
+                fetchProducts(); 
+            } else if (data.error) {
+                alert(data.error); 
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi khi xóa sản phẩm:', error); 
+            alert('Không thể xóa sản phẩm'); 
+        });
+    }
+}
+</script>
+<script>
+  let editingProductId = null; // Khởi tạo biến để lưu trữ ID của sản phẩm đang chỉnh sửa
 
+// Xử lý khi mở form sửa sản phẩm
+async function openEditForm(productId) {
+    try {
+        const response = await fetch(`http://localhost:8127/v1/User/find/${productId}`);
+        const data = await response.json();
+
+        if (data && data.product) {
+            document.getElementById('edit-product-form').style.display = 'block';
+            editingProductId = productId; // Lưu ID vào biến editingProductId
+
+            document.getElementById('edit-name').value = data.product.name;
+            document.getElementById('edit-price').value = data.product.price;
+            document.getElementById('edit-description').value = data.product.description;
+            document.getElementById('edit-stock').value = data.product.stock;
+            
+            if (data.product.image) {
+                document.getElementById('edit-image-display').src = data.product.image;
+            }
+        } else {
+            console.log("Sản phẩm không tồn tại");
+        }
+    } catch (error) {
+        console.error('Lỗi khi tải dữ liệu sản phẩm:', error);
+    }
+}
+
+// Xử lý khi submit form chỉnh sửa
+document.getElementById('edit-product-form').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Ngừng gửi form mặc định
+
+    const formData2 = new FormData();
+    const productId = editingProductId; // Giả sử bạn đã lấy id sản phẩm
+
+    // Thêm các trường vào FormData
+    formData2.append('name', document.getElementById('edit-name').value);
+    formData2.append('price', document.getElementById('edit-price').value);
+    formData2.append('description', document.getElementById('edit-description').value);
+    formData2.append('stock', document.getElementById('edit-stock').value);
+
+    // Kiểm tra và thêm tệp ảnh nếu có
+    const imageFile = document.getElementById('edit-image').files[0];
+    if (imageFile) {
+        formData2.append('image', imageFile); // Thêm tệp ảnh vào FormData
+    }
+
+    // Kiểm tra dữ liệu trong FormData trước khi gửi
+    for (let pair of formData2.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
+    // Gửi yêu cầu PUT với FormData
+    fetch(`http://localhost:8127/v1/User/edit/${productId}`, {
+        method: 'PUT',
+        body: formData2
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);  // Hiển thị thông báo nếu thành công
+            fetchProducts(); // Cập nhật lại danh sách sản phẩm
+        } else if (data.error) {
+            alert(data.error);  // Hiển thị thông báo lỗi nếu có
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi khi cập nhật sản phẩm:', error);
+        alert('Không thể cập nhật sản phẩm');
+    });
+});
+
+
+
+
+// Hàm đóng form khi người dùng nhấn vào nút hủy hoặc nền mờ
+document.getElementById('closeedit').addEventListener('click', function() {
+    document.getElementById('edit-product-form').style.display = 'none';
+    
+});
 
 </script>
 
