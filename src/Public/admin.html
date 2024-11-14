@@ -737,7 +737,7 @@ document.getElementById('closeedit').addEventListener('click', function() {
     document.getElementById('edit-product-form').style.display = 'none';
 //lấy danh mục
 });
-async function loadCategories() {
+async function loadCategoriess() {
     try {
         // Gửi yêu cầu API để lấy danh sách danh mục
         const response = await fetch('http://localhost:8127/v1/User/categories');
@@ -765,6 +765,15 @@ async function loadCategories() {
 
 document.getElementById('addcategoty').addEventListener('click', function() {
     document.getElementById('addCategoryForm').style.display = 'block';
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Lấy token từ cookie
+    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+    // Nếu không có token, điều hướng về trang đăng nhập
+    if (!token) {
+        window.location.href = '/login.html';
+    }
 });
 </script>
 
