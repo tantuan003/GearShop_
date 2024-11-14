@@ -1,5 +1,5 @@
 import express from 'express';
-import { CreateUser, LoginUser, getUserProfile, logout, addProduct, deleteProduct, editProduct } from '~/controllers/UserController'; // Import editProduct
+import { CreateUser, LoginUser, getUserProfile, logout, addProduct, deleteProduct, editProduct,addCategory } from '~/controllers/UserController'; // Import editProduct
 import { CreateUser_validition } from '~/validations/UserValidation';
 import authMiddleware from '~/middlewares/LoginMiddleware';
 import Category from '~/models/CategoryModel';
@@ -9,7 +9,6 @@ import path from 'path';
 import upload from '~/config/multerConfig';
 
 const router = express.Router();
-
 router.post('/register', CreateUser_validition, CreateUser);
 router.post('/add-product', addProduct);
 router.post('/login', LoginUser, authMiddleware, getUserProfile);
@@ -26,7 +25,16 @@ router.get('/categories', async (req, res) => {
 router.get('/products', async (req, res) => {
     try {
         const products = await Product.find();
-        res.status(200).json(products);
+        const formattedProducts = products.map(product => {
+            // Chỉ cập nhật trực tiếp trường cần định dạng mà không tạo đối tượng mới
+            return {
+                ...product.toObject(), // Giữ nguyên kiểu dữ liệu gốc
+                price: product.price.toLocaleString('vi-VN') // Định dạng trường price
+            };
+        });
+
+        res.status(200).json(formattedProducts);
+        
     } catch (err) {
         res.status(500).json({ message: 'Error fetching categories', error: err });
     }
@@ -59,5 +67,6 @@ router.get('/find/:productid', async (req, res) => {
 
 // Route để chỉnh sửa sản phẩm
 router.put('/edit/:id', upload.single('image'), editProduct);
+router.post('/addcategory',addCategory)
 
 export const UserRoutes = router;

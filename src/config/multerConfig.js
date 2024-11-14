@@ -20,7 +20,7 @@ const upload = multer({
     limits: { fileSize: 10 * 1024 * 1024 }, // Giới hạn kích thước file tối đa là 10MB
     fileFilter: (req, file, cb) => {
         // Chỉ cho phép file ảnh
-        const filetypes = /jpeg|jpg|png|gif/;
+        const filetypes = /jpeg|jpg|png|gif|webp/;
         const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
         const mimetype = filetypes.test(file.mimetype);
         

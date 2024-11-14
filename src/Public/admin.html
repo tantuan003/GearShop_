@@ -214,7 +214,7 @@
     padding: 10px; 
     font-size: 16px; 
 }
-#edit-product-form {
+#edit-product-form,#addCategoryForm {
     display: none; /* Ẩn mặc định */
     width: 100%;
     max-width: 400px; /* Đặt chiều rộng tối đa */
@@ -244,16 +244,24 @@
 
 #edit-product-form button {
     width: 100%;
+    margin: 5px;
     padding: 10px;
-    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
 }
-
-#edit-product-form button:hover {
+.submitedit{
+    background-color: #28a745;
+}
+.closeedit{
+    background-color: red;
+}
+.closeedit:hover{
+    background-color: red;
+}
+#edit-product-form .submitedit:hover {
     background-color: #45a049;
 }
 
@@ -263,7 +271,86 @@
     color: #333;
     margin-bottom: 20px;
 }
+.table-product{
+    text-align: center;
+}
+.action-buttons{
+    width: 200px;
+}
+.action-buttons button{
+    padding: 10px 20px;
+    background-color: #4CAF50; 
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.edit-button:hover{
+    background-color: #45a049; 
+}
+.delete-button:hover{
+    background-color: #ec0000;
+}
+#add{
+    float: left;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50; 
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
 
+}
+.container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .form-group-category {
+            margin-bottom: 20px;
+        }
+        .form-group-category label {
+            font-weight: bold;
+        }
+        .form-group-category input, .form-group-category textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group-category button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group-category button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
 /* Style cho background mờ khi form hiển thị */
 
     </style>
@@ -276,11 +363,11 @@
         </div>
         <ul class="sidebar-menu">
             <li><a href="#" onclick="showSection('dashboard')">Trang Chủ</a></li>
-            <li><a href="#" onclick="showSection('product-management')">Quản Lý Sản Phẩm</a></li>
-            <li><a href="#" onclick="showSection('order-management')">Quản Lý Đơn Hàng</a></li>
-            <li><a href="#" onclick="showSection('user-management')">Quản Lý Người Dùng</a></li>
+            <li><a href="#" onclick="showSection('product-management')">Sản Phẩm</a></li>
+            <li><a href="#" onclick="showSection('order-management')">Danh Mục</a></li>
+            <li><a href="#" onclick="showSection('user-management')">Người Dùng</a></li>
             <li><a href="#" onclick="showSection('settings')">Cài Đặt</a></li>
-            <li><a href="#" id="logoutButton">Đăng Xuất</a></li>
+            <li><a href="logged_in.html" id="logoutButton">Trang Chủ</a></li>
         </ul>
     </div>
 
@@ -340,11 +427,9 @@
                 <input type="number" id="edit-price" placeholder="Giá sản phẩm" required>
                 <input type="number" id="edit-stock" placeholder="Số lượng trong kho" required>
                 <input type="file" id="edit-image">
-                <button type="submit">Cập nhật</button>
-                <button type="button" id="closeedit" >Hủy</button>
+                <button class="submitedit" type="submit">Cập nhật</button>
+                <button type="button" id="closeedit" class="closeedit" >Hủy</button>
             </form>
-       
-
             <table id="productTable" border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px;">
                 <thead>
                     <tr>
@@ -353,6 +438,7 @@
                         <th>Mô Tả</th>
                         <th>Giá</th>
                         <th>Số Lượng</th>
+                        <th>Thao Tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -362,12 +448,41 @@
         </section>
 
         <section id="order-management" class="order-management">
-            <h1>Quản Lý Đơn Hàng</h1>
-            <p>Quản lý thông tin đơn hàng ở đây.</p>
+            <h1>Quản Lý Danh Mục</h1>
+            <div class="container">
+                <h2>Danh Sách Danh Mục</h2>
+                <button id="addcategoty">Thêm</button>
+                <table id="categoriesTable" border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px;" >
+                    <thead>
+                        <tr>
+                            <th>Tên Danh Mục</th>
+                            <th>Mô Tả</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoriesBody">
+                        <!-- Danh mục sẽ được hiển thị tại đây -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="container-category">
+                <h2>Thêm Danh Mục</h2>
+                <form id="addCategoryForm">
+                    <div class="form-group">
+                        <label for="name">Tên Danh Mục:</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Mô Tả:</label>
+                        <input type="text" id="description" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+            
         </section>
 
         <section id="user-management" class="user-management">
-            <h1>Quản Lý Người Dùng</h1>
+            <h1>Người Dùng</h1>
             <p>Quản lý thông tin người dùng ở đây.</p>
         </section>
 
@@ -449,6 +564,7 @@ async function loadCategories() {
 window.onload = function() {
     loadCategories();
     fetchProducts();
+    loadCategoriess()
 };
 // Cập nhật bảng sản phẩm sau khi thêm
 async function fetchProducts() {
@@ -461,16 +577,15 @@ async function fetchProducts() {
 
         products.forEach(product => {
             const row = `
-                <tr>
-                    <td><img src="${product.image}" width="50" height="50"></td>
+                <tr class="table-product">
+                    <td><img src="${product.image}" width="125" height="125"></td>
                     <td>${product.name}</td>
                     <td>${product.description}</td>
-                    <td>$${product.price}</td>
-                    <td>$${product.stock}</td>
-                    <td class="action-buttons">
-                        
-                        <button onclick="openEditForm('${product._id}')">Chỉnh Sửa</button>
-                        <button onclick="deleteProduct('${product._id}')">Xóa</button>
+                    <td>${product.price}đ</td>
+                    <td>${product.stock}</td>
+                    <td class="action-buttons">                       
+                        <button class="edit-button" onclick="openEditForm('${product._id}')">Chỉnh Sửa</button>
+                        <button class="delete-button" onclick="deleteProduct('${product._id}')">Xóa</button>
                     </td>
                 </tr>
             `;
@@ -617,16 +732,40 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
         alert('Không thể cập nhật sản phẩm');
     });
 });
-
-
-
-
 // Hàm đóng form khi người dùng nhấn vào nút hủy hoặc nền mờ
 document.getElementById('closeedit').addEventListener('click', function() {
     document.getElementById('edit-product-form').style.display = 'none';
-    
+//lấy danh mục
 });
+async function loadCategories() {
+    try {
+        // Gửi yêu cầu API để lấy danh sách danh mục
+        const response = await fetch('http://localhost:8127/v1/User/categories');
+        const categories = await response.json();
 
+        // Lấy phần tử tbody từ bảng categories
+        const categoriesBody = document.getElementById('categoriesBody');
+
+        // Xóa nội dung bảng trước khi thêm dữ liệu mới
+        categoriesBody.innerHTML = '';
+
+        // Duyệt qua các danh mục và tạo các dòng trong bảng
+        categories.forEach(category => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${category.name}</td>
+                <td>${category.description}</td>
+            `;
+            categoriesBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+}
+
+document.getElementById('addcategoty').addEventListener('click', function() {
+    document.getElementById('addCategoryForm').style.display = 'block';
+});
 </script>
 
 </html>

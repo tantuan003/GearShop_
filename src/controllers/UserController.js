@@ -193,3 +193,35 @@ export const editProduct = async (req, res) => {
         res.status(500).json({ message: 'Error updating product', error });
     }
 };
+
+export const addCategory = async (req, res) => {
+    try {
+        const { name, description } = req.body;
+
+        // Kiểm tra xem danh mục đã tồn tại hay chưa
+        const existingCategory = await Category.findOne({ name });
+        if (existingCategory) {
+            return res.status(400).json({ message: 'Danh mục đã tồn tại.' });
+        }
+
+        // Tạo danh mục mới
+        const newCategory = new Category({
+            name,
+            description
+        });
+
+        // Lưu danh mục vào database
+        await newCategory.save();
+
+        res.status(201).json({
+            message: 'Thêm danh mục thành công!',
+            category: newCategory
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Có lỗi xảy ra khi thêm danh mục.',
+            error: error.message
+        });
+    }
+};
+
