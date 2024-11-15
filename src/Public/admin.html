@@ -230,8 +230,10 @@
     transform: translateX(-50%);
     box-sizing: border-box;
 }
-
-#edit-product-form input,
+#addCategoryForm{
+    margin-left: 200px;
+}
+#edit-product-form input,#addCategoryForm input,
 #edit-product-form select,
 #edit-product-form textarea {
     width: 100%;
@@ -241,8 +243,7 @@
     border-radius: 5px;
     box-sizing: border-box;
 }
-
-#edit-product-form button {
+#edit-product-form button,#addCategoryForm button {
     width: 100%;
     margin: 5px;
     padding: 10px;
@@ -293,7 +294,7 @@
 .delete-button:hover{
     background-color: #ec0000;
 }
-#add{
+#add,#addcategoty{
     float: left;
     margin-bottom: 10px;
     margin-top: 10px;
@@ -312,6 +313,16 @@
             background-color: white;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container-categoriesTable {
+            max-width: 600px;
+            float: left;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container-category{
+            margin-left: 50px;
         }
         h2 {
             text-align: center;
@@ -449,7 +460,7 @@
 
         <section id="order-management" class="order-management">
             <h1>Quản Lý Danh Mục</h1>
-            <div class="container">
+            <div class="container-categoriesTable">
                 <h2>Danh Sách Danh Mục</h2>
                 <button id="addcategoty">Thêm</button>
                 <table id="categoriesTable" border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px;" >
@@ -457,6 +468,7 @@
                         <tr>
                             <th>Tên Danh Mục</th>
                             <th>Mô Tả</th>
+                            <th>Thao Tác</th>
                         </tr>
                     </thead>
                     <tbody id="categoriesBody">
@@ -464,19 +476,21 @@
                     </tbody>
                 </table>
             </div>
-            <div class="container-category">
-                <h2>Thêm Danh Mục</h2>
+            <div class="container-category">            
                 <form id="addCategoryForm">
+                    <h2>Thêm Danh Mục</h2>
                     <div class="form-group">
                         <label for="name">Tên Danh Mục:</label>
-                        <input type="text" id="name" class="form-control" required>
+                        <input type="text" id="name-category" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="description">Mô Tả:</label>
-                        <input type="text" id="description" class="form-control" required>
+                        <input type="text" id="name-description" class="form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Thêm</button>
+                    <button type="button" id="cancel-button-addcategoty">Huỷ</button>
                 </form>
+                <div id="responseMessage" class="response-message"></div>
             </div>
             
         </section>
@@ -533,7 +547,7 @@ document.getElementById('closeform').addEventListener('click', function() {
 async function loadCategories() {
     try {
         // Lấy dữ liệu categories từ API
-        const response = await fetch('http://localhost:8127/v1/User/categories');
+        const response = await fetch('/v1/User/categories');
         const categories = await response.json();
 
         // Lấy phần tử dropdown-content
@@ -569,7 +583,7 @@ window.onload = function() {
 // Cập nhật bảng sản phẩm sau khi thêm
 async function fetchProducts() {
     try {
-        const response = await fetch('http://localhost:8127/v1/User/products'); // URL của API
+        const response = await fetch('/v1/User/products'); // URL của API
         const products = await response.json();
 
         const tableBody = document.getElementById('productTable').getElementsByTagName('tbody')[0];
@@ -604,7 +618,7 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
     const selectedCategory = document.getElementById('category').value;
 
     try {
-        const response = await fetch('http://localhost:8127/v1/User/add-product', {
+        const response = await fetch('/v1/User/add-product', {
             method: 'POST',
             body: formData  // Gửi FormData trực tiếp, không chuyển sang JSON
         });
@@ -625,11 +639,10 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
 });
 </script>
 <script>
-    //xoá sản phẩm
-    
+    //xoá sản phẩm 
     function deleteProduct(productId) {
     if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
-        fetch(`http://localhost:8127/v1/User/delete-product/${productId}`, {
+        fetch(`/v1/User/delete-product/${productId}`, {
             method: 'DELETE'
         })
         .then(response => {
@@ -666,7 +679,7 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
 // Xử lý khi mở form sửa sản phẩm
 async function openEditForm(productId) {
     try {
-        const response = await fetch(`http://localhost:8127/v1/User/find/${productId}`);
+        const response = await fetch(`/v1/User/find/${productId}`);
         const data = await response.json();
 
         if (data && data.product) {
@@ -714,7 +727,7 @@ document.getElementById('edit-product-form').addEventListener('submit', async fu
     }
 
     // Gửi yêu cầu PUT với FormData
-    fetch(`http://localhost:8127/v1/User/edit/${productId}`, {
+    fetch(`/v1/User/edit/${productId}`, {
         method: 'PUT',
         body: formData2
     })
@@ -753,8 +766,11 @@ async function loadCategoriess() {
         categories.forEach(category => {
             const row = document.createElement('tr');
             row.innerHTML = `
+            <tr>
                 <td>${category.name}</td>
                 <td>${category.description}</td>
+                <button onclick="deleteCategory('${category._id}')">Xóa</button>
+                </tr>
             `;
             categoriesBody.appendChild(row);
         });
@@ -762,10 +778,83 @@ async function loadCategoriess() {
         console.error('Error loading categories:', error);
     }
 }
+function deleteCategory(categoryId) {
+    console.log("ID danh mục cần xóa:", categoryId); // Kiểm tra ID
+
+    if (confirm("Bạn có chắc chắn muốn xóa danh mục này?")) {
+        fetch(`/v1/User/delete-category/${categoryId}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Không thể xóa danh mục này');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Dữ liệu trả về từ server:', data); // Log dữ liệu trả về
+            if (data.message) {
+                alert(data.message);
+                const categoryElement = document.getElementById(`category-${categoryId}`);
+                if (categoryElement) {
+                    categoryElement.remove();
+                    
+                } else {
+                    console.warn('Không tìm thấy danh mục trong DOM');
+                }
+                loadCategoriess();
+            } else if (data.error) {
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi khi xóa danh mục:', error);
+           
+        });
+    }
+}
+
+
+
 
 document.getElementById('addcategoty').addEventListener('click', function() {
     document.getElementById('addCategoryForm').style.display = 'block';
 });
+
+document.getElementById('cancel-button-addcategoty').addEventListener('click', function() {
+    document.getElementById('addCategoryForm').style.display = 'none';
+});
+document.getElementById('addCategoryForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Ngăn form reload trang
+
+    const name = document.getElementById('name-category').value;
+    const description = document.getElementById('name-description').value;
+
+    try {
+        const response = await fetch('/v1/User/addcategory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, description }),
+        });
+
+        const result = await response.json();
+        const responseMessage = document.getElementById('responseMessage');
+
+        if (response.ok) {
+            loadCategoriess();
+            responseMessage.innerHTML = `<p style="color: green;">${result.message}</p>`;
+            
+        } else {
+            responseMessage.innerHTML = `<p style="color: red;">${result.message}</p>`;
+        }
+    } catch (error) {
+        console.error('Lỗi khi gọi API:', error);
+        document.getElementById('responseMessage').innerHTML = `<p style="color: red;">Có lỗi xảy ra!</p>`;
+    }
+});
+
 
 document.addEventListener("DOMContentLoaded", function() {
     // Lấy token từ cookie

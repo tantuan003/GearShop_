@@ -1,5 +1,5 @@
 import express from 'express';
-import { CreateUser, LoginUser, getUserProfile, logout, addProduct, deleteProduct, editProduct,addCategory } from '~/controllers/UserController'; // Import editProduct
+import { CreateUser, LoginUser, getUserProfile, logout, addProduct, deleteProduct, editProduct,addCategory,deleteCategory } from '~/controllers/UserController'; // Import editProduct
 import { CreateUser_validition } from '~/validations/UserValidation';
 import authMiddleware from '~/middlewares/LoginMiddleware';
 import Category from '~/models/CategoryModel';
@@ -48,7 +48,7 @@ router.get('/admin', authMiddleware, (req, res) => {
 });
 
 router.delete('/delete-product/:id', authMiddleware, deleteProduct);
-
+router.delete('/delete-category/:id', authMiddleware, deleteCategory);
 router.get('/find/:productid', async (req, res) => {
     try {
         const { productid } = req.params;  // Lấy ID từ URL
@@ -68,5 +68,4 @@ router.get('/find/:productid', async (req, res) => {
 // Route để chỉnh sửa sản phẩm
 router.put('/edit/:id', upload.single('image'), editProduct);
 router.post('/addcategory',addCategory)
-
 export const UserRoutes = router;

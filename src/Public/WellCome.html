@@ -317,7 +317,7 @@
     async function loadCategories() {
         try {
             // Lấy dữ liệu categories từ API
-            const response = await fetch('http://localhost:8127/v1/User/categories');
+            const response = await fetch('/v1/User/categories');
             const categories = await response.json();
 
             // Lấy phần tử dropdown-content
@@ -371,7 +371,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
         try {
-            const response = await fetch('http://localhost:8127/v1/User/products'); // URL của API
+            const response = await fetch('/v1/User/products'); // URL của API
             const products = await response.json();
 
             const contentDiv = document.querySelector('.content-newsp');

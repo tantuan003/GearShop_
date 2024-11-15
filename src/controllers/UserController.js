@@ -1,12 +1,15 @@
 // controllers/UserController.js
 import jwt from 'jsonwebtoken';
-import { UserModel } from '~/models/UserModel'; // Import mô hình người dùng
+import {UserModel} from '~/models/UserModel'; // Import mô hình người dùng
 import Joi from 'joi'; 
 import { StatusCodes } from 'http-status-codes'; // Đảm bảo đã import StatusCodes
 import bcrypt from 'bcrypt'
 import Product from '~/models/ProductModel';
+import Category from '~/models/CategoryModel';
 import upload from '~/config/multerConfig';
 import path from 'path';
+import mongoose from 'mongoose';
+
 
 export const CreateUser = async (req, res) => {
     console.log('Request body:', req.body);
@@ -161,6 +164,33 @@ export const deleteProduct = async (req, res) => {
         res.status(200).json({ message: 'Sản phẩm đã được xóa' });
     } catch (err) {
         res.status(500).json({ message: 'Lỗi khi xóa sản phẩm', error: err });
+    }
+};
+
+export const deleteCategory = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Kiểm tra ID có hợp lệ không
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'ID không hợp lệ.' });
+        }
+
+        // In ra ID để kiểm tra
+        console.log("ID của danh mục:", id);
+
+        // Kiểm tra xem danh mục có tồn tại hay không
+        const category = await Category.findByIdAndDelete(id);
+        if (!category) {
+            console.log(`Không tìm thấy danh mục với ID: ${id}`); // Log nếu không tìm thấy danh mục
+            return res.status(404).json({ message: 'Danh mục không tồn tại.' });
+        }
+
+        console.log('Danh mục đã được xóa:', category); // Log thông báo xóa thành công
+        res.status(200).json({ message: 'Xóa danh mục thành công!' });
+    } catch (err) {
+        console.error('Lỗi khi xóa danh mục:', err); // Log lỗi chi tiết
+        res.status(500).json({ message: 'Lỗi khi xóa danh mục', error: err });
     }
 };
 export const editProduct = async (req, res) => {

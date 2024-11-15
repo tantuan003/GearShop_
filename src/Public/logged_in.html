@@ -437,7 +437,7 @@
 
 
 <script>
-    fetch('http://localhost:8127/v1/User/logged_in', {
+    fetch('/v1/User/logged_in', {
     method: 'GET',
     credentials: 'include' // Đảm bảo cookie chứa token được gửi kèm
    
@@ -471,7 +471,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
    document.getElementById('logoutButton').addEventListener('click', function() {
-        fetch('http://localhost:8127/v1/User/logout', {
+        fetch('/v1/User/logout', {
             method: 'POST',
             credentials: 'include' // Bao gồm cookie trong yêu cầu
         })
@@ -529,7 +529,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
         try {
-            const response = await fetch('http://localhost:8127/v1/User/products'); // URL của API
+            const response = await fetch('/v1/User/products'); // URL của API
             const products = await response.json();
 
             const contentDiv = document.querySelector('.content-newsp');

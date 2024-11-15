@@ -97,7 +97,7 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
-            fetch('http://localhost:8127/v1/User/login', { // API đăng nhập
+            fetch('/v1/User/login', { // API đăng nhập
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
