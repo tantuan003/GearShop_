@@ -313,6 +313,9 @@
     border-bottom: 1px solid #444;
 
 }
+.img-cart{
+    float: right;
+}
     </style>
 </head>
 <body>
@@ -536,19 +539,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
             products.forEach(product => {
                 const productCard = `
-                    <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                        <h4 class="product-title">${product.name}</h4>
-                        <p class="product-description">${product.description}</p>
-                        <p class="product-price">${product.price}đ</p>
-                    </div>
-                `;
+        <div class="product-card" onclick="viewProductDetail('${product._id}')">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <h4 class="product-title">${product.name}</h4>
+            <p class="product-description">${product.description}</p>
+            <p class="product-price">${product.price}đ</p>
+            
+        </div>
+    `;
                 contentDiv.innerHTML += productCard;
             });
         } catch (error) {
             console.error('Lỗi khi lấy sản phẩm:', error);
         }
+       
     });
+    function viewProductDetail(productId) {
+    // Chuyển hướng đến trang chi tiết sản phẩm
+    window.location.href = `/product-detail.html?productId=${productId}`;
+}
 </script>
 
 </html>

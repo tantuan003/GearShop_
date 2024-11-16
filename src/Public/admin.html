@@ -84,6 +84,10 @@
             display: none;
             padding: 20px;
         }
+        .order-management h1{
+            text-align: center;
+        }
+
 
         /* Khi thanh menu hiển thị */
         .sidebar.open {
@@ -253,6 +257,20 @@
     cursor: pointer;
     font-size: 16px;
 }
+.deletecategory{
+    width: 85%;
+    margin: 5px;
+    padding: 10px;
+    color: white;
+    border: none;
+    background-color: red;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+#addCategoryForm button{
+    background-color: #28a745;
+}
 .submitedit{
     background-color: #28a745;
 }
@@ -262,7 +280,7 @@
 .closeedit:hover{
     background-color: red;
 }
-#edit-product-form .submitedit:hover {
+#edit-product-form .submitedit,#addCategoryForm button:hover {
     background-color: #45a049;
 }
 
@@ -315,6 +333,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .container-categoriesTable {
+            margin-top: 45px;
             max-width: 600px;
             float: left;
             background-color: white;
@@ -323,6 +342,7 @@
         }
         .container-category{
             margin-left: 50px;
+            margin-top: 45px;
         }
         h2 {
             text-align: center;
@@ -766,10 +786,10 @@ async function loadCategoriess() {
         categories.forEach(category => {
             const row = document.createElement('tr');
             row.innerHTML = `
-            <tr>
+            <tr class="categorytable">
                 <td>${category.name}</td>
                 <td>${category.description}</td>
-                <button onclick="deleteCategory('${category._id}')">Xóa</button>
+                <button class="deletecategory" onclick="deleteCategory('${category._id}')">Xóa</button>
                 </tr>
             `;
             categoriesBody.appendChild(row);
