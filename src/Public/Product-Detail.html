@@ -4,21 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi Tiết Sản Phẩm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 <style>
+      * {
+            box-sizing: border-box;
+            font-family: 'Patrick Hand', cursive;
+            list-style-type: none;
+        }
     body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+        height: 100%;
     margin: 0;
-    padding: 0;
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    background-color: #f5f5f5; /* Màu nền toàn trang */
+}
+header {
+            display: flex;
+            align-items: center;
+            background-color: black;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            height: 85px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {            
+            margin-left: 50px;
+            width: 250px;
+            height: auto;
+        }
+
+        .header_menu {
+            display: flex;
+            align-items: center;
+            margin-left: 50px;
+            font-size: 15px;
+        }
+
+        .header_menu ul {
+            list-style-type: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+
+        .header_menu li {
+            margin: 0 20px;
+            font-size: 1em;
+        }
+
+        nav a {
+            color: #fafbfa;
+            text-decoration: none;
+            font-size: 1em;
+        }
+        nav a:hover{
+            color:rgb(5, 220, 240); ;
+        }
+        .dropdown {
+            padding-top: 0px;
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none; 
+            position: absolute; 
+            background-color: #021516fd;
+            min-width: 160px; 
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+            z-index: 1; 
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block; 
+        }
+
+        .dropdown-content a {
+            color: rgb(255, 252, 252); 
+            padding: 12px 16px; 
+            display: block;
+            border-bottom: 1px solid #444;
+        }
+        .dropdown-content a:last-child {
+    border-bottom: none; /* Xóa đường kẻ dưới mục cuối */
+}
+.profile-circle {
+    width: 30px;
+    height: 30px;  
+    border-radius: 100%;
+    border: 3px solid #ccc;
+    cursor: pointer; /* Thêm con trỏ khi di chuột vào */
+    margin-left: 500px;
+    margin-top: 10px;
 }
 
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+    
+}
+
+.dropdown-profile-content {
+    display: none;
+    position: absolute;
+    top: 50px;
+    margin-left: 500px;
+    right: 10; 
+    background-color: #021516fd;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    width: 150px; 
+    z-index: 1;
+    opacity: 0; 
+    transform: translateY(-10px);
+    transition: opacity 0.3s, transform 0.3s; 
+}
+
+/* Đảm bảo dropdown hiển thị */
+.dropdown-profile-content.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0); /* Dừng tại vị trí ban đầu */
+}
+
+/* Cải tiến về các phần tử trong dropdown */
+.dropdown-profile-content a {
+    display: block;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f1f1f1;
+    width: 100%; 
+    text-decoration: none;
+    border-bottom: 1px solid #444;
+    box-sizing: border-box; 
+}
+
+.profile-name {
+    text-align: center;
+    margin-bottom: 3px;
+    color: #f1f1f1;
+    font-weight: bold;
+    font-size: 16px;
+}
+.profile-circle-1{
+    width: 25px;
+    height: 25px;
+}
+.profile-info {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 10px;
+    gap: 1px; /* Khoảng cách giữa ảnh và tên */
+    border-bottom: 1px solid #444;
+
+}
+
+
 .container {
-    max-width: 1200px;
-    margin: 20px auto;
+    display: flex;
+    width: 100%;
+    max-width: 1200px; /* Đặt giới hạn chiều rộng */
+    height: auto;
+    margin: 0; /* Loại bỏ khoảng cách mặc định */
+    margin-top: 100px;
+    
     background: #fff;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    z-index: 2;
 }
 
 .product-detail {
@@ -27,12 +188,14 @@
 }
 
 .product-image img {
-    max-width: 400px;
+    max-width: 450px;
     width: 100%;
+    margin-left: 50px;
     border-radius: 8px;
 }
 
 .product-info {
+    margin-left: 250px;
     flex: 1;
 }
 
@@ -67,21 +230,58 @@
 .btn {
     background-color: #27ae60;
     color: #fff;
+    text-align: center;
     border: none;
-    padding: 10px 20px;
+    height: 50px;
     font-size: 1.1em;
     border-radius: 5px;
     cursor: pointer;
+    width: 150px;
     transition: background-color 0.3s;
 }
 
 .btn:hover {
     background-color: #2ecc71;
 }
-
+.button-card{
+    margin-top: 50px;
+    display: flex;
+    gap: 80px;
+}
+#buy-button{
+    background-color: red;
+}
+.cart{
+    width: 45px;
+    height: 45px;
+}
 </style>    
 </head>
 <body>
+    <header>
+        <img src="/Upload/Logo.png" class="logo">
+        <nav class="header_menu">
+            <ul>
+                <li><a href="logged_in.html" class="home">TRANG CHỦ</a></li>
+                <li class="dropdown">
+                    <a href="#" class="category">DANH MỤC</a>
+                    <div class="dropdown-content">                       
+                    </div>
+                </li>
+                <li><a href="#">GIỚI THIỆU</a></li>
+                <li><a >XU HƯỚNG</a></li>
+            </ul>
+            <div class="profile-dropdown">
+                <img src="Upload/account_icon_1.png" class="profile-circle" id="profileButton">
+                
+                <div class="dropdown-profile-content" id="dropdownProfile">
+                    <li class="profile-info"><img class="profile-circle-1" src="Upload/account_icon_1.png"><span id="userName" class="profile-name"></span></li>
+                    <li id="adminLink" style="display: none;"><a href="admin.html">Quản Lý</a></li>
+                    <li><a href="#" id="logoutButton">Đăng Xuất</a></li>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div class="container">
         <!-- Phần thông tin sản phẩm -->
         <div class="product-detail">
@@ -101,7 +301,10 @@
                 </div>
 
                 <!-- Nút thêm vào giỏ hàng -->
-                <button id="addToCartButton" class="btn">Thêm vào giỏ hàng</button>
+                 <div class="button-card">
+                <img src="Upload/cart-1_-con.png" alt="" class="cart">
+                <button id="buy-button" class="btn">Mua Ngay</button>
+            </div>
             </div>
         </div>
     </div>
@@ -142,5 +345,87 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    // Lấy token từ cookie
+    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+    // Nếu không có token, điều hướng về trang đăng nhập
+    if (!token) {
+        window.location.href = '/login.html';
+    }
+    else {
+        // Giải mã token để lấy thông tin người dùng
+        const decodedToken = JSON.parse(atob(token.split('.')[1])); // Giải mã phần payload của token
+
+        // Hiển thị thông tin người dùng trên giao diện
+        const userName = decodedToken.name;
+        const userRole = decodedToken.role;
+        if (userRole === 'admin') {
+            document.getElementById('adminLink').style.display = 'block';
+        } else {
+            document.getElementById('adminLink').style.display = 'none';
+        }
+        // Hiển thị tên người dùng
+        document.getElementById('userName').textContent = userName;
+        
+
+        // Nếu có thể, hiển thị ảnh đại diện và các thông tin khác
+    }
+});
+   document.getElementById('logoutButton').addEventListener('click', function() {
+        fetch('/v1/User/logout', {
+            method: 'POST',
+            credentials: 'include' // Bao gồm cookie trong yêu cầu
+        })
+        .then(() => {
+            window.location.href = '/login.html'; // Chuyển hướng đến trang đăng nhập
+        })
+        .catch(error => console.error('Error:', error));
+        });
+    
+
+</script>
+<script>
+    // Hàm để lấy dữ liệu categories và chèn vào HTML
+    async function loadCategories() {
+        try {
+            // Lấy dữ liệu categories từ API
+            const response = await fetch('/v1/User/categories');
+            const categories = await response.json();
+
+            // Lấy phần tử dropdown-content
+            const dropdownContent = document.querySelector('.dropdown-content');
+
+            // Duyệt qua các category và tạo các thẻ <a> để thêm vào dropdown-content
+            categories.forEach(category => {
+                const aTag = document.createElement('a');
+                aTag.href = '#'; // Bạn có thể thay đổi href theo yêu cầu
+                aTag.textContent = category.name; // Hiển thị tên category
+                dropdownContent.appendChild(aTag); // Thêm <a> vào dropdown-content
+            });
+        } catch (error) {
+            console.error('Error loading categories:', error);
+        }
+    }
+
+    // Gọi hàm khi trang được tải
+    window.onload = loadCategories;
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const profileButton = document.getElementById("profileButton");
+    const dropdownProfile = document.getElementById("dropdownProfile");
+
+    // Toggle dropdown khi nhấn vào ảnh profile
+    profileButton.addEventListener("click", function() {
+        dropdownProfile.classList.toggle("show"); // Thêm hoặc xóa class 'show'
+    });
+
+    // Nếu nhấn vào vùng bên ngoài profile thì ẩn dropdown
+    document.addEventListener("click", function(event) {
+        if (!profileButton.contains(event.target) && !dropdownProfile.contains(event.target)) {
+            dropdownProfile.classList.remove("show");
+        }
+    });
+});
 </script>
 </html>
