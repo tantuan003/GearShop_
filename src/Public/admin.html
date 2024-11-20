@@ -382,7 +382,15 @@
         .success {
             color: green;
         }
-/* Style cho background mờ khi form hiển thị */
+        .usertable{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .usertable th,.usertable td{
+            border: 1px solid black;
+            text-align: center;
+        }
+
 
     </style>
 </head>
@@ -518,6 +526,20 @@
         <section id="user-management" class="user-management">
             <h1>Người Dùng</h1>
             <p>Quản lý thông tin người dùng ở đây.</p>
+            <table class="usertable">
+                <thead>
+                    <tr>
+                        <th>Stt</th>
+                        <th>Tên</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th>Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- Dữ liệu sẽ được thêm động tại đây -->
+                </tbody>
+            </table>
         </section>
 
         <section id="settings" class="settings">
@@ -598,7 +620,8 @@ async function loadCategories() {
 window.onload = function() {
     loadCategories();
     fetchProducts();
-    loadCategoriess()
+    loadCategoriess();
+    fetchUsers();
 };
 // Cập nhật bảng sản phẩm sau khi thêm
 async function fetchProducts() {
@@ -773,7 +796,7 @@ document.getElementById('closeedit').addEventListener('click', function() {
 async function loadCategoriess() {
     try {
         // Gửi yêu cầu API để lấy danh sách danh mục
-        const response = await fetch('http://localhost:8127/v1/User/categories');
+        const response = await fetch('/v1/User/categories');
         const categories = await response.json();
 
         // Lấy phần tử tbody từ bảng categories
@@ -884,6 +907,88 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.href = '/login.html';
     }
 });
+
+//get user
+async function fetchUsers() {
+    try {
+        // URL API lấy danh sách người dùng
+        const response = await fetch('/v1/User/getalluser');
+        const data = await response.json();
+
+        if (data.success) {
+            populateTable(data.data); // Gọi hàm hiển thị dữ liệu
+            addEventListenersUser(data.data);
+        } else {
+            console.error('Không thể lấy dữ liệu:', data.message);
+        }
+    } catch (error) {
+        console.error('Lỗi kết nối API:', error);
+    }
+}
+
+// Hàm hiển thị dữ liệu vào bảng
+function populateTable(users) {
+    const tableBody = document.getElementById('userTableBody');
+    tableBody.innerHTML = ''; // Xóa nội dung cũ nếu có
+
+    users.forEach((user, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+        
+            <td>${index + 1}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${user.role}</td>
+            <td> 
+                <button id="delete-${user._id}">Xóa</button>
+                <button id="edit-${user._id}">Sửa</button>
+            </td>
+           
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+//delete User
+async function deleteUser(userId) {
+    try {
+        const response = await fetch(`/v1/User/delete-user/${userId}`, {
+            method: 'DELETE',
+        });
+        const data = await response.json();
+        if (data.success) {
+            alert('Xóa người dùng thành công!');
+            fetchUsers();
+        } else {
+            alert('Không thể xóa người dùng: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Lỗi khi xóa người dùng:', error);
+    }
+}
+
+function addEventListenersUser(users) {
+    users.forEach(user => {
+        // Gắn sự kiện cho nút "Xóa"
+        const deleteButton = document.getElementById(`delete-${user._id}`);
+        if (deleteButton) {
+            deleteButton.addEventListener('click', async () => {
+                if (confirm(`Bạn có chắc chắn muốn xóa người dùng "${user.name}"?`)) {
+                    await deleteUser(user._id);
+                }
+            });
+        }
+
+        // Gắn sự kiện cho nút "Sửa"
+        const editButton = document.getElementById(`edit-${user._id}`);
+        if (editButton) {
+            editButton.addEventListener('click', () => {
+                openEditForm(user._id); // Chuyển đến form chỉnh sửa
+            });
+        }
+    });
+}
+
 </script>
 
 </html>

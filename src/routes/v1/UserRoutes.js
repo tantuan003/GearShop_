@@ -1,5 +1,5 @@
 import express from 'express';
-import { CreateUser, LoginUser, getUserProfile, logout, addProduct, deleteProduct, editProduct,addCategory,deleteCategory } from '~/controllers/UserController'; // Import editProduct
+import { CreateUser, LoginUser, getUserProfile, logout, addProduct, deleteProduct, editProduct,addCategory,deleteCategory,getAllUsers,deleteUser } from '~/controllers/UserController'; // Import editProduct
 import { CreateUser_validition } from '~/validations/UserValidation';
 import authMiddleware from '~/middlewares/LoginMiddleware';
 import Category from '~/models/CategoryModel';
@@ -64,7 +64,8 @@ router.get('/find/:productid', async (req, res) => {
         res.status(500).json({ message: 'Lỗi server' });
     }
 });
-
+router.get('/getalluser', getAllUsers);
+router.delete('/delete-user/:id', deleteUser);
 // Route để chỉnh sửa sản phẩm
 router.put('/edit/:id', upload.single('image'), editProduct);
 router.post('/addcategory',addCategory)

@@ -254,3 +254,46 @@ export const addCategory = async (req, res) => {
         });
     }
 };
+export const getAllUsers = async (req, res) => {
+    try {
+        // Lấy các tham số từ query (page, limit, role)
+        const { page = 1, limit = 10, role } = req.query;
+
+        // Tạo điều kiện lọc nếu có `role`
+        const filter = role ? { role } : {};
+
+        // Sử dụng phân trang và lọc
+        const users = await UserModel.find(filter)
+            .skip((page - 1) * limit) // Bỏ qua số lượng bản ghi tương ứng
+            .limit(Number(limit));   // Giới hạn số lượng bản ghi trả về
+
+        // Đếm tổng số người dùng (phục vụ phân trang)
+        const totalUsers = await UserModel.countDocuments(filter);
+
+        res.status(200).json({
+            success: true,
+            data: users,
+            totalUsers,
+            currentPage: Number(page),
+            totalPages: Math.ceil(totalUsers / limit),
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await UserModel.findByIdAndDelete(id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'Người dùng không tồn tại!' });
+        }
+        res.status(200).json({ success: true, message: 'Xóa người dùng thành công!' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
