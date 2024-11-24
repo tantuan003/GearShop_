@@ -303,8 +303,8 @@ export const editUser = async (req, res) => {
         console.log("User ID:", req.params.id);  // Kiểm tra ID
         console.log("Request Body:", req.body);    // Kiểm tra request body
 
-        const { name, email,} = req.body;
-        const updatedData = { name,email};
+        const { name, email,role} = req.body;
+        const updatedData = { name,email,role};
         // Cập nhật sản phẩm trong DB
         const updatedUser = await UserModel.findByIdAndUpdate(req.params.id, updatedData, { new: true });
 

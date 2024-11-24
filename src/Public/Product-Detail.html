@@ -12,7 +12,7 @@
             list-style-type: none;
         }
     body {
-        height: 100%;
+    height: 100%;
     margin: 0;
     display: flex;
     justify-content: center; /* Căn giữa theo chiều ngang */
@@ -61,6 +61,7 @@ header {
             color: #fafbfa;
             text-decoration: none;
             font-size: 1em;
+            white-space: nowrap;
         }
         nav a:hover{
             color:rgb(5, 220, 240); ;
@@ -103,6 +104,7 @@ header {
 }
 
 .profile-dropdown {
+    display: none;
     position: relative;
     display: inline-block;
     
@@ -255,6 +257,18 @@ header {
     width: 45px;
     height: 45px;
 }
+.sign_in_link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: rgb(247, 246, 246); 
+            font-size: 0.85em;
+            margin-left: 550px;
+        }
+        .sign_in_link:hover
+         {
+            color: rgb(5, 220, 240);
+        }
 </style>    
 </head>
 <body>
@@ -271,7 +285,10 @@ header {
                 <li><a href="#">GIỚI THIỆU</a></li>
                 <li><a >XU HƯỚNG</a></li>
             </ul>
-            <div class="profile-dropdown">
+            <a href="Login.html" class="sign_in_link" id="sign_in_link">
+                <img src="/Upload/signin_icon.png" width="20" height="20"> Đăng Nhập
+            </a> 
+            <div class="profile-dropdown" id="profile-dropdown">
                 <img src="Upload/account_icon_1.png" class="profile-circle" id="profileButton">
                 
                 <div class="dropdown-profile-content" id="dropdownProfile">
@@ -348,11 +365,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 document.addEventListener("DOMContentLoaded", function() {
     // Lấy token từ cookie
     const token = document.cookie.split('; ').find(row => row.startsWith('token='));
-    // Nếu không có token, điều hướng về trang đăng nhập
+    const homeLink = document.querySelector('.home');
     if (!token) {
-        window.location.href = '/login.html';
+       document.getElementById("sign_in_link").style.display='flex'
+       document.getElementById("profile-dropdown").style.display='none'
+       if (homeLink) {
+            homeLink.href = 'WellCome.html'; // Chuyển đến trang đăng nhập
+        }
     }
     else {
+        document.getElementById("profile-dropdown").style.display='flex'
+        document.getElementById("sign_in_link").style.display='none'
         // Giải mã token để lấy thông tin người dùng
         const decodedToken = JSON.parse(atob(token.split('.')[1])); // Giải mã phần payload của token
 

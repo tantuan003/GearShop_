@@ -531,6 +531,10 @@
                 <h3>Sửa</h3>
                 <input type="text" id="edit-name-user" placeholder="Tên" required>
                 <input type="text" id="edit-email-user" placeholder="email" required>
+                <select id="edit-role-user" name="role" required>
+                    <option value="user" selected>user</option>
+                    <option value="admin">admin</option>
+                </select>
                 <button class="submitedit-user" type="submit">Cập nhật</button>
                 <button type="button" id="close-edit-user" class="closeedit" >Hủy</button>
             </form>
@@ -1022,10 +1026,13 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
     // Lấy giá trị từ các trường input
     const name = document.getElementById('edit-name-user').value;
     const email = document.getElementById('edit-email-user').value;
+    const role = document.getElementById('edit-role-user').value; // Lấy giá trị của role
+
 
     // Kiểm tra dữ liệu trước khi gửi
     console.log('Name:', name);
     console.log('Email:', email);
+    console.log('Role:', role);  // In giá trị role
 
     // Gửi yêu cầu PUT với JSON
     fetch(`/v1/User/edit-user/${userId}`, {
@@ -1035,7 +1042,8 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
         },
         body: JSON.stringify({
             name: name,
-            email: email
+            email: email,
+            role: role
         })
     })
     .then(response => response.json())
