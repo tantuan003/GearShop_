@@ -4,6 +4,7 @@ import { CreateUser_validition } from '~/validations/UserValidation';
 import authMiddleware from '~/middlewares/LoginMiddleware';
 import Category from '~/models/CategoryModel';
 import Product from '~/models/ProductModel';
+import { UserModel } from '~/models/UserModel';
 import { StatusCodes } from 'http-status-codes';
 import path from 'path';
 import upload from '~/config/multerConfig';
@@ -59,6 +60,21 @@ router.get('/find/:productid', async (req, res) => {
         }
 
         res.json({ product });  // Trả về sản phẩm
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Lỗi server' });
+    }
+});
+router.get('/finduser/:userid', async (req, res) => {
+    try {
+        const { userid } = req.params;  // Lấy ID từ URL
+        const user = await UserModel.findById(userid);  // Tìm sản phẩm theo ID
+
+        if (!user) {
+            return res.status(404).json({ message: 'không tìm thấy người dùng' });
+        }
+
+        res.json({ user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Lỗi server' });
