@@ -297,3 +297,24 @@ export const deleteUser = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+export const editUser = async (req, res) => {
+    try {
+        // Kiểm tra dữ liệu trong body và file được tải lên
+        console.log("User ID:", req.params.id);  // Kiểm tra ID
+        console.log("Request Body:", req.body);    // Kiểm tra request body
+
+        const { name, email,} = req.body;
+        const updatedData = { name,email};
+        // Cập nhật sản phẩm trong DB
+        const updatedUser = await UserModel.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User không tồn tại' });
+        }
+
+        res.status(200).json({ message: 'Cập nhật thành công', UserModel: updatedUser });
+    } catch (error) {
+        console.error('Lỗi khi cập nhật sản phẩm:', error);
+        res.status(500).json({ message: 'Error updating User', error });
+    }
+};

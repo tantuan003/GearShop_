@@ -1,5 +1,5 @@
 import express from 'express';
-import { CreateUser, LoginUser, getUserProfile, logout, addProduct, deleteProduct, editProduct,addCategory,deleteCategory,getAllUsers,deleteUser } from '~/controllers/UserController'; // Import editProduct
+import { CreateUser, LoginUser, getUserProfile, logout, addProduct, deleteProduct, editProduct,addCategory,deleteCategory,getAllUsers,deleteUser,editUser } from '~/controllers/UserController'; // Import editProduct
 import { CreateUser_validition } from '~/validations/UserValidation';
 import authMiddleware from '~/middlewares/LoginMiddleware';
 import Category from '~/models/CategoryModel';
@@ -84,5 +84,7 @@ router.get('/getalluser', getAllUsers);
 router.delete('/delete-user/:id', deleteUser);
 // Route để chỉnh sửa sản phẩm
 router.put('/edit/:id', upload.single('image'), editProduct);
+
+router.put('/edit-user/:id', editUser);
 router.post('/addcategory',addCategory)
 export const UserRoutes = router;
