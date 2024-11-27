@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <title>Trang Admin</title>
     <style>
         /* Reset các thiết lập mặc định */
@@ -10,13 +11,14 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Patrick Hand', cursive;
         }
 
         /* Thanh menu bên trái */
         .sidebar {
             height: 100%;
             width: 250px;
-            background-color: #2c3e50;
+            background-color: rgba(0, 0, 0, 0.847);
             position: fixed;
             top: 0;
             left: -250px;
@@ -34,21 +36,23 @@
         .sidebar-menu {
             list-style-type: none;
             padding: 0;
+            
         }
 
         .sidebar-menu li {
             padding: 10px 15px;
+            
         }
 
         .sidebar-menu li a {
             color: white;
             text-decoration: none;
             display: block;
-            font-size: 16px;
+            font-size: 17px;
         }
 
         .sidebar-menu li a:hover {
-            background-color: #34495e;
+            color: #07e5e9;
         }
 
         /* Nội dung chính */
@@ -60,9 +64,10 @@
 
         header {
             display: flex;
+            border-radius: 10px;
             justify-content: space-between;
             align-items: center;
-            background-color: #34495e;
+            background-color: rgba(0, 0, 0, 0.847);
             color: white;
             padding: 10px 20px;
         }
@@ -84,9 +89,6 @@
             display: none;
             padding: 20px;
         }
-        .order-management h1{
-            text-align: center;
-        }
 
 
         /* Khi thanh menu hiển thị */
@@ -106,20 +108,25 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
-    display: none; /* Ẩn modal mặc định */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none; 
     justify-content: center;
     align-items: center;
-    z-index: 1001; /* Đảm bảo form nằm trên các phần tử khác */
+    z-index: 1001; 
 }
-
+.product-form-background{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 /* Form thêm sản phẩm trong modal */
 #productForm {
     background-color: white;
     padding: 20px;
     width: 400px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
 }
 
@@ -234,13 +241,20 @@
     transform: translateX(-50%);
     box-sizing: border-box;
 }
+#edit-user-form{
+    margin-left: 550px;
+}
 #addCategoryForm{
     margin-left: 200px;
+}
+#edit-user-form input,select{
+    font-size: 20px;
+
 }
 #edit-product-form input,#addCategoryForm input,
 #edit-product-form select,
 #edit-product-form textarea,
-#edit-user-form input
+#edit-user-form input,
 #edit-user-form select {
     width: 100%;
     padding: 10px;
@@ -249,7 +263,7 @@
     border-radius: 5px;
     box-sizing: border-box;
 }
-#edit-product-form button,#addCategoryForm button,#edit-user-form button {
+#edit-product-form button,#addCategoryForm button {
     width: 100%;
     margin: 5px;
     padding: 10px;
@@ -258,6 +272,20 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+}
+#edit-user-form button{
+    width: 95%;
+    margin: 5px;
+    padding-top: 10px;
+    padding: 10px 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.submitedit-user{
+    background-color: #28a745;
 }
 .deletecategory{
     width: 85%;
@@ -286,7 +314,7 @@
     background-color: #45a049;
 }
 
-#edit-product-form h3 {
+#edit-product-form h3,#edit-user-form h3  {
     text-align: center;
     font-size: 24px;
     color: #333;
@@ -338,6 +366,7 @@
             margin-top: 45px;
             max-width: 600px;
             float: left;
+            text-align: center;
             background-color: white;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -389,9 +418,52 @@
             border-collapse: collapse;
         }
         .usertable th,.usertable td{
-            border: 1px solid black;
+            border: 2px solid black;
             text-align: center;
         }
+        .dashboard-home {
+    display: flex;
+    width: 100%;
+    height: 85vh; /* Chiều cao khung chứa */
+    gap: 10px;
+}
+.left {
+    width: 30%; /* Chiếm 30% chiều rộng */
+    background-color: lightblue;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.right {
+    width: 70%; /* Chiếm 70% chiều rộng */
+    display: flex;
+    flex-direction: column; /* Xếp chồng các khung */
+    gap: 10px;
+}
+
+.top-right, .bottom-right {
+    flex: 1; /* Chiều cao mỗi khung chiếm đều trong "right" */
+    background-color: lightcoral;
+    border-radius: 10px;
+    overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài khung */
+    position: relative; /* Cần thiết để ảnh bên trong căn chỉnh đúng */
+}
+
+.top-right img,.left img,.bottom-right img {
+    width: 100%; /* Ảnh phủ hết chiều ngang khung */
+    height: 100%; /* Ảnh phủ hết chiều cao khung */
+    object-fit: cover; /* Cắt ảnh sao cho khớp với khung */
+    transition: transform 0.3s ease; /* Hiệu ứng mượt khi phóng to */
+}
+.top-right p{
+    color: white;
+    text-align: center;
+}
+.top-right img:hover,.left img:hover,.bottom-right img:hover {
+    transform: scale(1.1); /* Phóng to ảnh 10% khi hover */
+}
+
 
 
     </style>
@@ -403,10 +475,10 @@
             <h2>Admin Dashboard</h2>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="#" onclick="showSection('dashboard')">Trang Chủ</a></li>
+            <li><a href="#" onclick="showSection('dashboard')">Home</a></li>
             <li><a href="#" onclick="showSection('product-management')">Sản Phẩm</a></li>
             <li><a href="#" onclick="showSection('order-management')">Danh Mục</a></li>
-            <li><a href="#" onclick="showSection('user-management')">Người Dùng</a></li>
+            <li><a href="#" onclick="showSection('user-management')">Tài Khoản</a></li>
             <li><a href="logged_in.html" id="logoutButton">Trang Chủ</a></li>
         </ul>
     </div>
@@ -415,17 +487,28 @@
         <header>
             <button class="menu-toggle" id="menuToggle">&#9776; Menu</button>
             <div class="admin-info">
-                <span id="userName">Chào, Admin</span>
+                <span id="userName">CHÀO ADMIN!!!</span>
             </div>
         </header>
 
         <section id="dashboard" class="dashboard">
-            <h1>Trang Chủ</h1>
-            <p>Chào mừng đến với trang quản trị.</p>
+            <div>
+            <div class="dashboard-home">
+                <div class="left"><img src="Upload/admin_danhmuc.png" onclick="showSection('order-management')"></div>
+                <div class="right">
+                    <div class="top-right">                       
+                        <img src="Upload/admin_sanpham.png" onclick="showSection('product-management')">  
+                    </div>
+                    <div class="bottom-right"><img src="/Upload/admin_taikhoan.png" onclick="showSection('user-management')"></div>
+                </div>
+
+            </div>
+        </div>
         </section>
 
         <section id="product-management" class="product-management">
             <h1>Quản Lý Sản Phẩm</h1>
+            <div class="product-form-background">
             <button id="add">Thêm Sản Phẩm</button>
 
             <div id="productFormOverlay">
@@ -457,6 +540,7 @@
                         <button type="button" class="cancel-button" id="closeform">Huỷ</button>
                     </form>
                 </div>
+            </div>
             </div>
             
             
@@ -532,7 +616,7 @@
                 <input type="text" id="edit-name-user" placeholder="Tên" required>
                 <input type="text" id="edit-email-user" placeholder="email" required>
                 <select id="edit-role-user" name="role" required>
-                    <option value="user" selected>user</option>
+                    <option value="user">user</option>
                     <option value="admin">admin</option>
                 </select>
                 <button class="submitedit-user" type="submit">Cập nhật</button>
@@ -824,7 +908,7 @@ async function loadCategoriess() {
             <tr class="categorytable">
                 <td>${category.name}</td>
                 <td>${category.description}</td>
-                <button class="deletecategory" onclick="deleteCategory('${category._id}')">Xóa</button>
+                <td><button class="deletecategory" onclick="deleteCategory('${category._id}')">Xóa</button></td>
                 </tr>
             `;
             categoriesBody.appendChild(row);

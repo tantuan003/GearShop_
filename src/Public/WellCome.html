@@ -111,21 +111,26 @@
         }
 
         .slideshow {
-            width: 100%;
-            height: 84vh;
-            position: relative;
-            overflow: hidden;
-            background-color: white;
-        }
+    width: 100%;
+    height: 85vh;
+    position: relative;
+    overflow: hidden;
+    background-color: white;
+    display: flex; /* Đảm bảo căn chỉnh ảnh */
+    justify-content: center;
+    align-items: center;
+}
 
-        .slideshow img {
-            width: 100%;
-            max-height: 100%;
-            object-fit: cover;
-            position: absolute;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
+.slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Hiển thị toàn bộ ảnh */
+    position: absolute;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
 
         .slideshow img.active {
             opacity: 1;
@@ -251,11 +256,11 @@
     </header>
 
     <div class="slideshow">
-        <img src="/Upload/main_banner.webp" class="active" alt="Slideshow Image 1">
-        <img src="/Upload/keyboard_banner5.png" alt="Slideshow Image 2">
+        <img src="/Upload/blackfriday-banner_1.webp" class="active" alt="Slideshow Image 1">
+        <img src="/Upload/Mchose_banner_2.webp" alt="Slideshow Image 2">
         <img src="/Upload/headphone_1.webp" alt="Slideshow Image 3">
-        <img src="/Upload/img_banner.webp" alt="Slideshow Image 4">
-        <img src="/Upload/keyboard2_img.webp" alt="Slideshow Image 5">
+        <img src="/Upload/MCHOSE_banner_3.webp" alt="Slideshow Image 4">
+        <img src="/Upload/MCHOSE_banner_4.webp" alt="Slideshow Image 5">
         <button class="nav-button left" onclick="prevSlide()">&#10094;</button>
         <button class="nav-button right" onclick="nextSlide()">&#10095;</button>
     </div>
@@ -376,7 +381,7 @@
 
             const contentDiv = document.querySelector('.content-newsp');
 
-            products.forEach(product => {
+            products.forEach(product => {               
                 const productCard = `
         <div class="product-card" onclick="viewProductDetail('${product._id}')">
             <img src="${product.image}" alt="${product.name}" class="product-image">
