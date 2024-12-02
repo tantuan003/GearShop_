@@ -318,3 +318,35 @@ export const editUser = async (req, res) => {
         res.status(500).json({ message: 'Error updating User', error });
     }
 };
+
+export const getProductsByCategoryId = async (req, res) => {
+    const { categoryId } = req.params;
+
+    // Kiểm tra xem categoryId có phải là ObjectId hợp lệ không
+    if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+        return res.status(400).json({ message: 'ID danh mục không hợp lệ.' });
+    }
+
+    try {
+        // Khởi tạo ObjectId từ categoryId
+        const categoryObjectId = new mongoose.Types.ObjectId(categoryId);
+
+        // Kiểm tra xem danh mục có tồn tại không
+        const category = await Category.findById(categoryObjectId);
+        if (!category) {
+            return res.status(404).json({ message: 'Danh mục không tồn tại.' });
+        }
+
+        // Lấy sản phẩm theo ID danh mục
+        const products = await Product.find({ category: category._id });
+        
+        if (!products.length) {
+            return res.status(404).json({ message: 'Không tìm thấy sản phẩm nào trong danh mục này.' });
+        }
+
+        res.status(200).json({ success: true, products });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Lỗi server. Vui lòng thử lại sau.' });
+    }
+};

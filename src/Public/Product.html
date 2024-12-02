@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GearShop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Patrick Hand', cursive;
+            list-style-type: none;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            max-width: 100vw;
+            overflow-x: hidden;
+            background-color: #f4f4f4;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            background-color: black;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            height: 85px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {            
+            margin-left: 50px;
+            width: 250px;
+            height: auto;
+        }
+
+        .header_menu {
+            display: flex;
+            align-items: center;
+            margin-left: 50px;
+            font-size: 15px;
+        }
+
+        .header_menu ul {
+            list-style-type: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+
+        .header_menu li {
+            margin: 0 20px;
+            font-size: 1em;
+        }
+
+        nav a {
+            color: #fafbfa;
+            text-decoration: none;
+            font-size: 1em;
+        }
+        nav a:hover{
+            color:rgb(5, 220, 240); ;
+        }
+
+        .sign_in_link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: rgb(247, 246, 246); 
+            font-size: 0.85em;
+            margin-left: 550px;
+        }
+
+        .sign_in_link:hover,
+        .home:hover,
+        .category:hover,
+        .dropdown-content a:hover {
+            color: rgb(5, 220, 240);
+        }
+
+        .dropdown {
+            padding-top: 0px;
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none; 
+            position: absolute; 
+            background-color: #021516fd;
+            min-width: 160px; 
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+            z-index: 1; 
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block; 
+        }
+
+        .dropdown-content a {
+            color: rgb(255, 252, 252); 
+            padding: 12px 16px; 
+            display: block;
+            border-bottom: 1px solid #444;
+        }
+        .dropdown-content a:last-child {
+    border-bottom: none; /* Xóa đường kẻ dưới mục cuối */
+}
+.title-category{
+    position: absolute;
+    display: block;
+    margin-top: 50px;
+    
+}
+.title-category h1{
+    text-align: center;
+}
+        .content,.content-newsp {
+            margin-top: 100px;
+            display: grid;
+            background-color: white;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            padding: 10px;
+            padding-left: 150px;
+            padding-right: 150px;
+            align-items: center;
+        }
+
+        .product-card {
+            background-color: rgba(230, 230, 231, 0);
+            border: 1px solid black;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 400px;    
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            border: 2px solid rgb(5, 220, 240);
+            transform: scale(1.03);
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: 200px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin: 10px 0;
+            padding-top: 20px;
+            transition: transform 0.3s ease, filter 2s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .product-price {
+            font-size: 16px;
+            color: #e63946;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            width: 100%;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 1;
+            border-radius: 50%;
+        }
+        .nav-button.left {
+            left: 20px;
+        }
+
+        .nav-button.right {
+            right: 20px;
+        }
+        #logoutButton{
+            color: white;
+            margin-top: 5px;
+            
+        }
+        #logoutButton:hover{
+            color: red;
+        }
+     /* Chỉnh sửa tổng quan cho phần dropdown */
+.profile-circle {
+    width: 30px;
+    height: 30px;  
+    border-radius: 100%;
+    border: 3px solid #ccc;
+    cursor: pointer; /* Thêm con trỏ khi di chuột vào */
+    margin-left: 500px;
+    margin-top: 10px;
+}
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+    
+}
+
+.dropdown-profile-content {
+    display: none;
+    position: absolute;
+    top: 50px;
+    margin-left: 500px;
+    right: 10; 
+    background-color: #021516fd;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    width: 150px; 
+    z-index: 1;
+    opacity: 0; 
+    transform: translateY(-10px);
+    transition: opacity 0.3s, transform 0.3s; 
+}
+
+/* Đảm bảo dropdown hiển thị */
+.dropdown-profile-content.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0); /* Dừng tại vị trí ban đầu */
+}
+
+/* Cải tiến về các phần tử trong dropdown */
+.dropdown-profile-content a {
+    display: block;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f1f1f1;
+    width: 100%; 
+    text-decoration: none;
+    border-bottom: 1px solid #444;
+    box-sizing: border-box; 
+}
+
+.profile-name {
+    text-align: center;
+    margin-bottom: 3px;
+    color: #f1f1f1;
+    font-weight: bold;
+    font-size: 16px;
+}
+.profile-circle-1{
+    width: 25px;
+    height: 25px;
+}
+.profile-info {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 10px;
+    gap: 1px; /* Khoảng cách giữa ảnh và tên */
+    border-bottom: 1px solid #444;
+
+}
+.img-cart{
+    float: right;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <img src="/Upload/Logo.png" class="logo">
+        <nav class="header_menu">
+            <ul>
+                <li><a href="logged_in.html" class="home">TRANG CHỦ</a></li>
+                <li class="dropdown">
+                    <a href="#" class="category">DANH MỤC</a>
+                    <div class="dropdown-content">                       
+                    </div>
+                </li>
+                <li><a href="#">GIỚI THIỆU</a></li>
+                <li><a >XU HƯỚNG</a></li>
+            </ul>
+            <div class="profile-dropdown">
+                <img src="Upload/account_icon_1.png" class="profile-circle" id="profileButton">
+                
+                <div class="dropdown-profile-content" id="dropdownProfile">
+                    <li class="profile-info"><img class="profile-circle-1" src="Upload/account_icon_1.png"><span id="userName" class="profile-name"></span></li>
+                    <li id="adminLink" style="display: none;"><a href="admin.html">Quản Lý</a></li>
+                    <li><a href="#" id="logoutButton">Đăng Xuất</a></li>
+                </div>
+            </div>
+        </nav>
+    </header>
+   <div class="title-category">
+    <h1>Danh Mục//</h1>
+    <div class="content-newsp">
+       
+    </div>
+</div>
+    <footer>
+        <p>&copy; 2024 My Application. All rights reserved.</p>
+    </footer>
+</body>
+<script>
+    fetch('/v1/User/logged_in', {
+    method: 'GET',
+    credentials: 'include' // Đảm bảo cookie chứa token được gửi kèm
+});
+document.addEventListener("DOMContentLoaded", function() {
+    // Lấy token từ cookie
+    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+    // Nếu không có token, điều hướng về trang đăng nhập
+    if (!token) {
+        document.getElementById("sign_in_link").style.display='flex'
+       document.getElementById("profile-dropdown").style.display='none'
+       if (homeLink) {
+            homeLink.href = 'WellCome.html'; // Chuyển đến trang đăng nhập
+        }
+    }
+    else {
+         document.getElementById("profile-dropdown").style.display='flex'
+        document.getElementById("sign_in_link").style.display='none'
+        // Giải mã token để lấy thông tin người dùng
+        function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Chuyển từ Base64 URL sang Base64 chuẩn
+    const jsonPayload = decodeURIComponent(
+        atob(base64)
+            .split('')
+            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+    );
+    return JSON.parse(jsonPayload); // Trả về đối tượng đã giải mã
+}
+
+const decodedToken = parseJwt(token);
+
+        // Hiển thị thông tin người dùng trên giao diện
+        const userName = decodedToken.name;
+        const userRole = decodedToken.role;
+        if (userRole === 'admin') {
+            document.getElementById('adminLink').style.display = 'block';
+        } else {
+            document.getElementById('adminLink').style.display = 'none';
+        }
+        // Hiển thị tên người dùng
+        document.getElementById('userName').textContent = userName;
+        
+
+        // Nếu có thể, hiển thị ảnh đại diện và các thông tin khác
+    }
+});
+   document.getElementById('logoutButton').addEventListener('click', function() {
+        fetch('/v1/User/logout', {
+            method: 'POST',
+            credentials: 'include' // Bao gồm cookie trong yêu cầu
+        })
+        .then(() => {
+            window.location.href = '/login.html'; // Chuyển hướng đến trang đăng nhập
+        })
+        .catch(error => console.error('Error:', error));
+        });
+    
+</script>
+<script>
+    // Hàm để lấy dữ liệu categories và chèn vào HTML
+    async function loadCategories() {
+        try {
+            // Lấy dữ liệu categories từ API
+            const response = await fetch('/v1/User/categories');
+            const categories = await response.json();
+
+            // Lấy phần tử dropdown-content
+            const dropdownContent = document.querySelector('.dropdown-content');
+
+            // Duyệt qua các category và tạo các thẻ <a> để thêm vào dropdown-content
+            categories.forEach(category => {
+                const aTag = document.createElement('a');
+                aTag.href = `Product.html?categoryId=${category._id}`;
+                aTag.textContent = category.name; // Hiển thị tên category
+                dropdownContent.appendChild(aTag); // Thêm <a> vào dropdown-content
+            });
+        } catch (error) {
+            console.error('Error loading categories:', error);
+        }
+    }
+
+    // Gọi hàm khi trang được tải
+    window.onload = loadCategories;
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const profileButton = document.getElementById("profileButton");
+    const dropdownProfile = document.getElementById("dropdownProfile");
+
+    // Toggle dropdown khi nhấn vào ảnh profile
+    profileButton.addEventListener("click", function() {
+        dropdownProfile.classList.toggle("show"); // Thêm hoặc xóa class 'show'
+    });
+
+    // Nếu nhấn vào vùng bên ngoài profile thì ẩn dropdown
+    document.addEventListener("click", function(event) {
+        if (!profileButton.contains(event.target) && !dropdownProfile.contains(event.target)) {
+            dropdownProfile.classList.remove("show");
+        }
+    });
+});
+</script>
+<script>
+ // Lấy categoryId từ URL
+function getCategoryIdFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('categoryId'); // Lấy giá trị categoryId
+}
+
+// Hàm load sản phẩm theo danh mục
+async function loadProductsByCategory() {
+    const categoryId = getCategoryIdFromURL();
+    if (!categoryId) {
+        console.error('Không tìm thấy ID danh mục.');
+        return;
+    }
+
+    try {
+        // Gọi API lấy sản phẩm theo categoryId
+        const response = await fetch(`/v1/User/category/id/${categoryId}`);
+        const data = await response.json();
+
+        if (!data.success) {
+            console.error('Không tìm thấy sản phẩm.');
+            return;
+        }
+
+        // Gọi hàm render sản phẩm lên giao diện
+        renderProducts(data.products);
+    } catch (error) {
+        console.error('Error loading products:', error);
+    }
+}
+
+// Hàm render sản phẩm lên giao diện
+function renderProducts(products) {
+    const contentDiv = document.querySelector('.content-newsp');
+    contentDiv.innerHTML = ''; // Xóa nội dung cũ
+
+    if (products.length === 0) {
+        contentDiv.innerHTML = '<p>Không có sản phẩm nào trong danh mục này.</p>';
+        return;
+    }
+
+    products.forEach(product => {
+        const productCard = `
+        <div class="product-card" onclick="viewProductDetail('${product._id}')">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <h4 class="product-title">${product.name}</h4>
+            <p class="product-description">${product.description}</p>
+            <p class="product-price">${product.price}đ</p>
+        </div>
+        `;
+        contentDiv.innerHTML += productCard;
+    });
+   
+}
+function viewProductDetail(productId) {
+    // Chuyển hướng đến trang chi tiết sản phẩm
+    window.location.href = `/product-detail.html?productId=${productId}`;
+    }
+
+// Gọi hàm load sản phẩm khi trang được tải
+document.addEventListener('DOMContentLoaded', loadProductsByCategory);
+</script>
+</html>
