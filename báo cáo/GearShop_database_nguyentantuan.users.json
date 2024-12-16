@@ -1,0 +1,30 @@
+[{
+  "_id": {
+    "$oid": "672f04e0b5664c15e63117e2"
+  },
+  "name": "tantuan2003",
+  "email": "tantuan0169@gmail.com",
+  "password": "$2b$10$AFqnIgmRDBLuTVhtOAcRhu654tLH867jsGc6UZbn9ykWxhxvk7X8G",
+  "role": "user",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672f0793030085a2e25835f8"
+  },
+  "name": "Admin",
+  "email": "admin@gmail.com",
+  "password": "$2a$10$zCujRAAlahraD0iIhQTMleb2q9iQjv1lTRZALI7tLnVB432l/N.2C",
+  "role": "admin",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674a89383ec592a6b3278e07"
+  },
+  "name": "Nguyễn Tấn Tuấn 123",
+  "email": "tantuan0162@gmail.com",
+  "password": "$2b$10$iOwvJYq/R0zNZYV8dMNisOH/GYgr3ZhprykU5PbLvjMi4sX9YScbS",
+  "role": "user",
+  "__v": 0
+}]

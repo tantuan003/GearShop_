@@ -1,0 +1,32 @@
+[{
+  "_id": {
+    "$oid": "672e43980c511651dc426b07"
+  },
+  "name": "Bàn Phím",
+  "description": "Bàn phím tốt",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672e43980c511651dc426b08"
+  },
+  "name": "Chuột Máy Tính",
+  "description": "Chuột ngon",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672e43980c511651dc426b09"
+  },
+  "name": "Tai Nghe",
+  "description": "Tai nghe xịn",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672e43980c511651dc426b0a"
+  },
+  "name": "Pad Chuột",
+  "description": "pad chuột siêu mượt",
+  "__v": 0
+}]

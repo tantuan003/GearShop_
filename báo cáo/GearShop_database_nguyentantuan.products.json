@@ -1,0 +1,312 @@
+[{
+  "_id": {
+    "$oid": "67348c883fbecd3a85d9d622"
+  },
+  "name": "Aula f75",
+  "category": "672e43980c511651dc426b07",
+  "price": 875000,
+  "description": "Ngon nhất tầm giá dưới 1 triệu ",
+  "image": "Upload\\1731578068895.webp",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735c9695355ba7463ab58fe"
+  },
+  "name": "M1W v3",
+  "category": "672e43980c511651dc426b07",
+  "price": 1350000,
+  "description": "Bàn phím ngonnn",
+  "image": "/Upload/1731578217415.png",
+  "stock": 25,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735c9ed5355ba7463ab5907"
+  },
+  "name": "MK75",
+  "category": "672e43980c511651dc426b07",
+  "price": 2250000,
+  "description": "Bàn phím ngonnn",
+  "image": "/Upload/1731578349955.webp",
+  "stock": 25,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735ca265355ba7463ab590a"
+  },
+  "name": "Razer V2 Pro",
+  "category": "672e43980c511651dc426b07",
+  "price": 2500000,
+  "description": "Bàn phím ngonnn",
+  "image": "/Upload/1731578406912.jpg",
+  "stock": 25,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735ca435355ba7463ab590d"
+  },
+  "name": "Ered 75",
+  "category": "672e43980c511651dc426b07",
+  "price": 1750000,
+  "description": "Bàn phím ngonnn",
+  "image": "/Upload/1731578435100.webp",
+  "stock": 25,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6735ca5d5355ba7463ab5910"
+  },
+  "name": "Corsair K70",
+  "category": "672e43980c511651dc426b07",
+  "price": 1750000,
+  "description": "Bàn phím ngonnn",
+  "image": "/Upload/1731578461093.webp",
+  "stock": 25,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67361dfc98800ea082bf71cd"
+  },
+  "name": "Chuột Logitech G102",
+  "category": "672e43980c511651dc426b08",
+  "price": 165000,
+  "description": "Chuột Ngonnn",
+  "image": "/Upload/1731599868705.webp",
+  "stock": 100,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67361e2c98800ea082bf71d0"
+  },
+  "name": "Chuột Razer Deathadder",
+  "category": "672e43980c511651dc426b08",
+  "price": 2350000,
+  "description": "Chuột Ngonnn",
+  "image": "/Upload/1731599916574.webp",
+  "stock": 100,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67361e5a98800ea082bf71d3"
+  },
+  "name": "Chuột Logitech G Pro Supperlight",
+  "category": "672e43980c511651dc426b08",
+  "price": 2450000,
+  "description": "Chuột Ngonnn",
+  "image": "/Upload/1731599962388.webp",
+  "stock": 100,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67361eaf98800ea082bf71d9"
+  },
+  "name": "Chuột Logitech G Super",
+  "category": "672e43980c511651dc426b08",
+  "price": 1850000,
+  "description": "Chuột Ngonnn",
+  "image": "/Upload/1731600047449.jpg",
+  "stock": 100,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67361ed198800ea082bf71dc"
+  },
+  "name": "Chuột Glorious Pro",
+  "category": "672e43980c511651dc426b08",
+  "price": 1250000,
+  "description": "Chuột Ngonnn",
+  "image": "/Upload/1731600081949.jpg",
+  "stock": 100,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67361ef398800ea082bf71df"
+  },
+  "name": "Chuột Apoo V280",
+  "category": "672e43980c511651dc426b08",
+  "price": 775000,
+  "description": "Chuột Ngonnn",
+  "image": "/Upload/1731600115933.webp",
+  "stock": 100,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67361fc898800ea082bf71e9"
+  },
+  "name": "Chuột Logitech G304",
+  "category": "672e43980c511651dc426b07",
+  "price": 585000,
+  "description": "Chuột Ngonnn",
+  "image": "/Upload/1731600328697.jpg",
+  "stock": 100,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67361fe998800ea082bf71ec"
+  },
+  "name": "Chuột Asus Rog Gladius III",
+  "category": "672e43980c511651dc426b08",
+  "price": 585000,
+  "description": "Chuột Ngonnn",
+  "image": "/Upload/1731600361720.png",
+  "stock": 100,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b5cfcb0da6042c925148"
+  },
+  "name": "Lót chuột màu đen",
+  "category": "672e43980c511651dc426b0a",
+  "price": 500000,
+  "description": "lót chuột giá rẻ",
+  "image": "/Upload/1732687311033.webp",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b5f8cb0da6042c92514e"
+  },
+  "name": "Lót chuột màu xanh",
+  "category": "672e43980c511651dc426b0a",
+  "price": 600000,
+  "description": "lót chuột giá rẻ",
+  "image": "/Upload/1732687352208.jpg",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b604cb0da6042c925151"
+  },
+  "name": "Lót chuột màu hồng",
+  "category": "672e43980c511651dc426b0a",
+  "price": 600000,
+  "description": "lót chuột giá rẻ",
+  "image": "/Upload/1732687364613.jpg",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b634cb0da6042c925154"
+  },
+  "name": "Lót chuột DareU ESP109 SWALLOW",
+  "category": "672e43980c511651dc426b0a",
+  "price": 1200000,
+  "description": "lót chuột giá rẻ",
+  "image": "/Upload/1732687412864.jpg",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b679cb0da6042c925157"
+  },
+  "name": "Tai Nghe Logitech G PRO X2 LIGHSPEED Pink",
+  "category": "672e43980c511651dc426b0a",
+  "price": 1650000,
+  "description": "Tai nghe giá rẻ",
+  "image": "/Upload/1732687481865.webp",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b738cb0da6042c925164"
+  },
+  "name": "Tai Nghe Corsair HS35 V2 Xanh",
+  "category": "672e43980c511651dc426b09",
+  "price": 1750000,
+  "description": "Tai nghe giá rẻ",
+  "image": "/Upload/1732687672297.png",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b792cb0da6042c925167"
+  },
+  "name": "Tai Nghe Logitech G733 LighSpeed Wireless Black",
+  "category": "672e43980c511651dc426b09",
+  "price": 1850000,
+  "description": "Tai nghe giá rẻ",
+  "image": "/Upload/1732687762003.webp",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b7afcb0da6042c92516a"
+  },
+  "name": "Tai Nghe HP HyperX Cloud III Wireless Red",
+  "category": "672e43980c511651dc426b09",
+  "price": 1250000,
+  "description": "Tai nghe giá rẻ",
+  "image": "/Upload/1732687791131.webp",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b7cbcb0da6042c92516d"
+  },
+  "name": "Tai Nghe Logitech G435 Lightspeed Wireless White",
+  "category": "672e43980c511651dc426b09",
+  "price": 1250000,
+  "description": "Tai nghe giá rẻ",
+  "image": "/Upload/1732687819436.jpg",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b7eacb0da6042c925170"
+  },
+  "name": "Tai Nghe Edifier True Wireless X2S Xám",
+  "category": "672e43980c511651dc426b09",
+  "price": 950000,
+  "description": "Tai nghe giá rẻ",
+  "image": "/Upload/1732687850162.png",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6746b7fbcb0da6042c925173"
+  },
+  "name": "Tai Nghe True Wireless Sony WF - C500 Green",
+  "category": "672e43980c511651dc426b09",
+  "price": 950000,
+  "description": "Tai nghe giá rẻ",
+  "image": "/Upload/1732687867065.png",
+  "stock": 50,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674d64161e2eedc55619428a"
+  },
+  "name": "Chuột Attack Shark X3 Pro",
+  "category": "672e43980c511651dc426b08",
+  "price": 775000,
+  "description": "Chuột ngonn",
+  "image": "/Upload/1733125142046.webp",
+  "stock": 10,
+  "__v": 0
+}]
