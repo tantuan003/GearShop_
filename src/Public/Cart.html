@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+}
+#cart-items {
+    width: 80%;
+    margin: 30px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+#cart-list {
+    display: flex;
+    flex-direction: column;
+}
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.item-details {
+    flex-grow: 1;
+    margin-left: 15px;
+}
+.item-details p {
+    margin: 5px 0;
+    color: #555;
+}
+button {
+    padding: 8px 16px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #c0392b;
+}
+#total-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 20;
+}
+
+#total {
+    font-size: 18px;
+    margin-left: 1050px;
+}
+#checkout-btn {
+    padding: 12px 24px;
+    background-color: #2ecc71;
+    color: white;
+    margin-left: 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#checkout-btn:hover {
+    background-color: #27ae60;
+}
+
+    </style>
+</head>
+<body>
+
+    <h1>Giỏ Hàng</h1>
+    <div id="cart-items">
+        <!-- Giỏ hàng sẽ được hiển thị ở đây -->
+    </div>
+    <!-- Tổng tiền và nút thanh toán nằm trong cart-items và dưới danh sách sản phẩm -->
+    <div id="total-container">
+        <div id="total">Tổng tiền: 0 VNĐ</div>
+        <button id="checkout-btn" onclick="checkout()">Thanh toán</button>
+    </div>
+
+<script>
+// Hàm lấy giỏ hàng từ API
+function getCart(userId) {
+    fetch(`/v1/User/getcart/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (!data || !data.items) {
+                console.error('Dữ liệu giỏ hàng không hợp lệ');
+                return;
+            }
+
+            const cartItemsDiv = document.getElementById('cart-items');
+            cartItemsDiv.innerHTML = ''; // Xóa nội dung cũ
+            let total = 0;  // Biến tính tổng số tiền
+
+            data.items.forEach(item => {
+                const product = item.productId;
+                const quantity = item.quantity;
+                const price = product.price;
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('cart-item');
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="item-details">
+                        <p><strong>${product.name}</strong></p>
+                        <p>${price} VNĐ x ${quantity}</p>
+                    </div>
+                    <button onclick="removeFromCart('${userId}', '${product._id}')">Xóa</button>
+                `;
+                cartItemsDiv.appendChild(productDiv);
+
+                // Cộng giá trị vào tổng
+                total += price * quantity;
+            });
+
+            // Hiển thị tổng tiền
+            document.getElementById('total').innerText = `Tổng tiền: ${total} VNĐ`;
+        })
+        .catch(error => {
+            console.error('Lỗi khi lấy giỏ hàng:', error);
+        });
+}
+
+// Hàm xóa sản phẩm khỏi giỏ hàng
+function removeFromCart(userId, productId) {
+    fetch(`/v1/User/cart/${userId}/item/${productId}`, {
+        method: 'DELETE',
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Sản phẩm đã xóa:', data);
+        getCart(userId); // Cập nhật lại giỏ hàng sau khi xóa sản phẩm
+    })
+    .catch(error => {
+        console.error('Lỗi khi xóa sản phẩm:', error);
+    });
+}
+
+// Hàm thanh toán (chỉ là ví dụ, bạn cần xử lý thực tế)
+function checkout() {
+    const userId = localStorage.getItem("userid");
+    fetch(`/v1/User/checkout/${userId}`, {
+        method: 'POST',
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Thanh toán thành công!');
+            getCart(userId);  // Cập nhật lại giỏ hàng sau khi thanh toán
+        } else {
+            alert('Lỗi khi thanh toán!');
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi khi thanh toán:', error);
+    });
+}
+
+// Lấy giỏ hàng khi trang được tải
+const userId = localStorage.getItem("userid");  // Thay bằng ID thực tế của người dùng
+getCart(userId);
+</script>
+
+</body>
+</html>

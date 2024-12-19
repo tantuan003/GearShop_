@@ -478,6 +478,9 @@ const decodedToken = parseJwt(token);
         // Hiển thị thông tin người dùng trên giao diện
         const userName = decodedToken.name;
         const userRole = decodedToken.role;
+        const userid = decodedToken.userId
+        localStorage.setItem('userid', userid);
+        localStorage.setItem('userName', userName);
         if (userRole === 'admin') {
             document.getElementById('adminLink').style.display = 'block';
         } else {

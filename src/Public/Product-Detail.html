@@ -245,7 +245,7 @@ header {
 .btn:hover {
     background-color: #2ecc71;
 }
-.button-card{
+.button-cart{
     margin-top: 50px;
     display: flex;
     gap: 80px;
@@ -256,6 +256,12 @@ header {
 .cart{
     width: 45px;
     height: 45px;
+}
+.main-cart img{
+    width: 50px;
+    height: 50px;
+    margin-top: 15px;
+   
 }
 .sign_in_link {
             display: flex;
@@ -285,9 +291,11 @@ header {
                 <li><a href="#">GIỚI THIỆU</a></li>
                 <li><a >XU HƯỚNG</a></li>
             </ul>
+          
             <a href="Login.html" class="sign_in_link" id="sign_in_link">
                 <img src="/Upload/signin_icon.png" width="20" height="20"> Đăng Nhập
             </a> 
+           
             <div class="profile-dropdown" id="profile-dropdown">
                 <img src="Upload/account_icon_1.png" class="profile-circle" id="profileButton">
                 
@@ -298,6 +306,9 @@ header {
                 </div>
             </div>
         </nav>
+        <div class="main-cart">
+            <img id="getcart" src="Upload/cart_2.png">
+        </div>
     </header>
     <div class="container">
         <!-- Phần thông tin sản phẩm -->
@@ -318,8 +329,8 @@ header {
                 </div>
 
                 <!-- Nút thêm vào giỏ hàng -->
-                 <div class="button-card">
-                <img src="Upload/cart-1_-con.png" alt="" class="cart">
+                 <div class="button-cart">
+                <img id="img-add-to-cart" src="Upload/cart-1_-con.png" alt="" class="cart">
                 <button id="buy-button" class="btn">Mua Ngay</button>
             </div>
             </div>
@@ -327,8 +338,9 @@ header {
     </div>
 </body>
 <script>
+   let product; // Khai báo biến product bên ngoài event listener
+
 document.addEventListener('DOMContentLoaded', async () => {
-    // Lấy productId từ URL (giả sử URL có dạng: ?productId=123)
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('productId');
 
@@ -338,19 +350,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        // Gọi API để lấy danh sách sản phẩm
         const response = await fetch('/v1/User/products');
         const products = await response.json();
-
-        // Tìm sản phẩm có ID tương ứng
-        const product = products.find(p => p._id === productId);
+        product = products.find(p => p._id === productId); // Gán sản phẩm vào biến product
 
         if (!product) {
             alert("Sản phẩm không tồn tại!");
             return;
         }
 
-        // Cập nhật thông tin sản phẩm vào giao diện
         document.getElementById("productImage").src = product.image;
         document.getElementById("productName").innerText = product.name;
         document.getElementById("productDescription").innerText = product.description;
@@ -362,50 +370,101 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Lấy token từ cookie
-    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
-    const homeLink = document.querySelector('.home');
-    if (!token) {
-       document.getElementById("sign_in_link").style.display='flex'
-       document.getElementById("profile-dropdown").style.display='none'
-       if (homeLink) {
-            homeLink.href = 'WellCome.html'; // Chuyển đến trang đăng nhập
-        }
+async function addToCart() {
+    const userId = localStorage.getItem('userid'); // Lấy userId từ localStorage
+    if (!userId) {
+        alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+        return;
     }
-    else {
-        document.getElementById("profile-dropdown").style.display='flex'
-        document.getElementById("sign_in_link").style.display='none'
-        // Giải mã token để lấy thông tin người dùng
-        const decodedToken = JSON.parse(atob(token.split('.')[1])); // Giải mã phần payload của token
 
-        // Hiển thị thông tin người dùng trên giao diện
-        const userName = decodedToken.name;
-        const userRole = decodedToken.role;
-        if (userRole === 'admin') {
-            document.getElementById('adminLink').style.display = 'block';
-        } else {
-            document.getElementById('adminLink').style.display = 'none';
+    const urlParams = new URLSearchParams(window.location.search); // Lấy query string
+    const productId = urlParams.get('productId')
+    const quantity = 1; // Giả sử người dùng thêm 1 sản phẩm vào giỏ hàng
+
+    // Kiểm tra nếu productId không tồn tại
+    if (!productId) {
+        alert("Không tìm thấy sản phẩm.");
+        return;
+    }
+
+    // Gửi yêu cầu POST tới API để thêm sản phẩm vào giỏ hàng
+    try {
+        // Gửi yêu cầu POST tới API
+        const response = await fetch('/v1/User/addcart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId, productId, quantity }),
+        });
+
+        // Kiểm tra trạng thái phản hồi
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP Error: ${response.status}`);
         }
-        // Hiển thị tên người dùng
-        document.getElementById('userName').textContent = userName;
-        
 
-        // Nếu có thể, hiển thị ảnh đại diện và các thông tin khác
+        // Xử lý dữ liệu phản hồi
+        const data = await response.json();
+        console.log("Response Data:", data);
+        alert("Sản phẩm đã được thêm vào giỏ hàng!");
+    } catch (error) {
+        console.error("Lỗi khi gửi yêu cầu:", error.message);
+        alert("Đã xảy ra lỗi khi kết nối với server: " + error.message);
+    }
+}
+
+
+
+// Đảm bảo nút "Thêm vào giỏ hàng" chỉ hoạt động khi sản phẩm đã được tải
+document.getElementById("img-add-to-cart").addEventListener('click', () => {
+    if (product) {
+        addToCart(product); // Sử dụng biến product toàn cục
+    } else {
+        alert("Sản phẩm chưa được tải!");
     }
 });
-   document.getElementById('logoutButton').addEventListener('click', function() {
-        fetch('/v1/User/logout', {
-            method: 'POST',
-            credentials: 'include' // Bao gồm cookie trong yêu cầu
-        })
-        .then(() => {
-            window.location.href = '/login.html'; // Chuyển hướng đến trang đăng nhập
-        })
-        .catch(error => console.error('Error:', error));
-        });
-    
+document.getElementById("getcart").addEventListener('click', () => {
+   window.location.href = '/Cart.html';
+});
 
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+        const homeLink = document.querySelector('.home');
+
+        if (!token) {
+            document.getElementById("sign_in_link").style.display = 'flex';
+            document.getElementById("profile-dropdown").style.display = 'none';
+
+            if (homeLink) {
+                homeLink.href = 'WellCome.html'; 
+            }
+        } else {
+            document.getElementById("profile-dropdown").style.display = 'flex';
+            document.getElementById("sign_in_link").style.display = 'none';
+
+            const decodedToken = JSON.parse(atob(token.split('.')[1]));
+            const userName = decodedToken.name;
+            const userRole = decodedToken.role;
+
+            document.getElementById('userName').innerText = userName;
+
+            if (userRole === 'admin') {
+                document.getElementById('adminLink').style.display = 'block';
+            }
+
+            document.getElementById('profileButton').addEventListener('click', function() {
+                const dropdown = document.getElementById('dropdownProfile');
+                dropdown.classList.toggle('show');
+            });
+
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                document.cookie = 'token=; max-age=0'; // Clear the token
+                window.location.reload(); // Reload page to reflect changes
+            });
+        }
+    });
 </script>
 <script>
     // Hàm để lấy dữ liệu categories và chèn vào HTML
